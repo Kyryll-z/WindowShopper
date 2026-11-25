@@ -1,0 +1,152 @@
+<!doctype html>
+<!--
+  Shape of reports/page.html. On the first find, copy this file to reports/page.html,
+  fill one report section and the contents row, delete the example markers.
+  Self-contained: inline CSS only, no JS, no external resources, UTF-8.
+  Publish with the Artifact tool, title "WindowShopper reports". After the first publish,
+  put the page's claude.ai URL in the artifact-url meta below; every later find or
+  recheck passes that URL to Artifact so the same page is updated, never a new one.
+  Newest report goes at the top, under the contents list.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="artifact-url" content="">
+<title>WindowShopper reports</title>
+<style>
+  :root { --ink: #111827; --muted: #4b5563; --line: #e5e7eb; --bg: #ffffff; --box: #f4f6f9; --link: #1d4ed8; --warn: #b45309; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --ink: #e5e7eb; --muted: #9ca3af; --line: #374151; --bg: #111827; --box: #1f2937; --link: #93c5fd; --warn: #fbbf24; }
+  }
+  :root[data-theme="dark"] { --ink: #e5e7eb; --muted: #9ca3af; --line: #374151; --bg: #111827; --box: #1f2937; --link: #93c5fd; --warn: #fbbf24; }
+  * { box-sizing: border-box; }
+  body { margin: 0 auto; padding: 24px 16px 48px; max-width: 880px; font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
+  h1 { font-size: 26px; margin: 0 0 12px; }
+  h2 { font-size: 21px; margin: 40px 0 4px; padding-top: 16px; border-top: 2px solid var(--line); }
+  h3 { font-size: 17px; margin: 24px 0 6px; }
+  h4 { font-size: 15px; margin: 16px 0 4px; }
+  p, ul { margin: 0 0 10px; }
+  a { color: var(--link); }
+  .muted { color: var(--muted); font-size: 13px; }
+  .answer { background: var(--box); padding: 12px 14px; border-radius: 8px; }
+  .unverified { color: var(--warn); font-size: 13px; }
+  .table { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 6px 0 12px; }
+  th, td { text-align: left; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h1>WindowShopper reports</h1>
+
+<!--
+  Contents list: one row per report, newest first: date, item, top pick.
+  Item links to the report's id, a date-item slug (e.g. 2026-11-25-robot-vacuum).
+  The "reports" task reads past reports from this table.
+-->
+<div class="table">
+<table>
+  <thead><tr><th>Date</th><th>Item</th><th>Top pick</th></tr></thead>
+  <tbody>
+    <tr><td>YYYY-MM-DD</td><td><a href="#YYYY-MM-DD-item">Item</a></td><td>Model</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ===== Report section: copy this whole <section> for each find, newest at the top ===== -->
+<section id="YYYY-MM-DD-item">
+<h2>Item</h2>
+<p class="muted">Found YYYY-MM-DD</p>
+<!--
+  recheck <report>: <report> matches an item or date in the contents list; if more than one
+  matches, ask. Add "Rechecked <date>" here, under the heading. Update prices, stock, time
+  checked, price history and buy-now-or-wait in Where to buy, and the prices in Left out.
+  Change the Answer only if the best place to buy changed. Republish to the artifact URL.
+  A change you ask for: re-run from Longlist with the changed needs, replace this section in
+  place (same position), note the change under What you asked for, republish to the same URL.
+-->
+
+<h3>Answer</h3>
+<!--
+  What to buy and where, in two or three lines.
+  "Where" only from a price verified on the store page. If no store price could be verified:
+  still name the model, give the unverified price with its label, say no store price could be
+  verified, and never name a store as the place to buy on an unverified price alone.
+-->
+<div class="answer"><p>Buy <b>Model</b> at <a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a> for $0.00 CAD.</p></div>
+
+<h3>What you asked for</h3>
+<!-- Your needs as stated, then anything assumed, and any changes asked for later (dated). -->
+<ul>
+  <li>Need</li>
+  <li>Assumed: ...</li>
+</ul>
+
+<h3>The shortlist</h3>
+<!--
+  Up to 3: best overall, best value, one alternative when worth knowing. Fewer when one clearly wins.
+  Comparison table, then per pick: why it fits you, what reviewers praise and criticise
+  (each claim linked to its source), who it is not for.
+-->
+<div class="table">
+<table>
+  <thead><tr><th>Pick</th><th>Model</th><th>Best price</th><th>Key specs</th></tr></thead>
+  <tbody>
+    <tr><td>Best overall</td><td>Model</td><td>$0.00</td><td>...</td></tr>
+  </tbody>
+</table>
+</div>
+<h4>Best overall: Model</h4>
+<p><b>Why it fits you:</b> ...</p>
+<p><b>Reviewers praise:</b> ... (<a href="https://review.example" target="_blank" rel="noopener noreferrer">Source</a>)</p>
+<p><b>Reviewers criticise:</b> ...</p>
+<p><b>Not for:</b> ...</p>
+
+<h3>Where to buy</h3>
+<!--
+  Per pick: store, seller (store or named marketplace seller), price CAD, stock, link, time checked.
+  Only the exact model, new, with what's included. Links are plain <a href> store links, no
+  affiliate or tracking parameters, with target="_blank" rel="noopener noreferrer".
+  Every price is either verified (read on the store page in Chrome or with WebFetch) or carries
+  the label <span class="unverified">from search, not verified on the store page</span> and links
+  to where it came from. Fallback order when Chrome can't read a store: WebFetch the store page,
+  then search results.
+  Canadian Tire: blocked by the Chrome extension and usually by WebFetch, so its prices are mostly
+  unverified; say so once in this part rather than leaving it out without comment.
+  Account-specific prices (Prime, member price): say so next to the price. Never sign in or out.
+  Then price history (tracker figures are history, not verified current prices; link the tracker)
+  and whether to buy now or wait. If no history was found, say so.
+-->
+<h4>Model</h4>
+<div class="table">
+<table>
+  <thead><tr><th>Store</th><th>Seller</th><th>Price</th><th>Stock</th><th>Checked</th></tr></thead>
+  <tbody>
+    <tr><td><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a></td><td>Store</td><td>$0.00</td><td>In stock</td><td>YYYY-MM-DD HH:MM</td></tr>
+    <tr><td><a href="https://search.example/result" target="_blank" rel="noopener noreferrer">Store</a></td><td>Seller</td><td>$0.00 <span class="unverified">from search, not verified on the store page</span></td><td>Unknown</td><td>YYYY-MM-DD HH:MM</td></tr>
+  </tbody>
+</table>
+</div>
+<p><b>Price history:</b> ... (<a href="https://ca.camelcamelcamel.com" target="_blank" rel="noopener noreferrer">tracker</a>). <b>Buy now or wait:</b> ...</p>
+
+<h3>Left out</h3>
+<!--
+  The rest of the longlist and popular models rejected, one line each: model, price (with the
+  same verified / unverified label rules as Where to buy), and why.
+-->
+<ul>
+  <li><b>Model</b>, $0.00 at <a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a>: why.</li>
+</ul>
+
+<h3>Sources</h3>
+<!-- Every review, store and tracker page used, linked. Say which review sites were used. -->
+<ul>
+  <li><a href="https://review.example" target="_blank" rel="noopener noreferrer">Source title</a></li>
+</ul>
+</section>
+<!-- ===== End report section ===== -->
+
+</body>
+</html>
