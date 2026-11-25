@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WindowShopper</title>
+<style>
+  :root { --ink: #111827; --muted: #4b5563; --line: #e5e7eb; --bg: #fff; --box: #f4f6f9; --edge: #475569; --loop: #b45309; }
+  * { box-sizing: border-box; }
+  body { margin: 0 auto; padding: 32px 32px 48px; max-width: 960px; font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  h2 { font-size: 19px; margin: 36px 0 8px; }
+  p { margin: 0 0 10px; max-width: 78ch; }
+  .lead { font-size: 16.5px; color: var(--muted); }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.9em; }
+  table { border-collapse: collapse; margin: 8px 0; font-size: 14px; width: 100%; }
+  th, td { text-align: left; padding: 7px 12px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); font-size: 13px; }
+  ol { margin: 0 0 10px; padding-left: 22px; max-width: 78ch; }
+  li { margin-bottom: 4px; }
+  svg.flow { display: block; width: 100%; max-width: 420px; height: auto; margin: 8px 0 16px; }
+  .flow rect { fill: var(--box); stroke: var(--edge); stroke-width: 1.2; }
+  .flow .t { fill: var(--ink); font: 600 13px system-ui, sans-serif; }
+  .flow .s { fill: var(--muted); font: 11.5px system-ui, sans-serif; }
+  .flow .a { stroke: var(--edge); stroke-width: 1.4; fill: none; }
+  .flow .l { stroke: var(--loop); stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+  .flow .lt { fill: var(--loop); font: 11.5px system-ui, sans-serif; }
+  @media (max-width: 640px) { body { padding: 20px 16px 40px; } table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+
+<h1>WindowShopper</h1>
+<p class="lead">You name something you want to buy. It reads trusted reviews for the models that fit your needs, compares their Canadian prices and price history, narrows to a shortlist, and adds a report that explains what to buy and where to one private page holding all your reports, readable on any device. Just for you. Runs in Claude Code, from your computer or your phone. It never buys anything.</p>
+
+<h2>Sources of truth</h2>
+<table>
+  <thead><tr><th>Fact</th><th>Lives only in</th></tr></thead>
+  <tbody>
+    <tr><td>Shape of the page and of each report on it</td><td><code>templates/page.html</code></td></tr>
+    <tr><td>Where reviews and prices come from</td><td>"Sources" below</td></tr>
+    <tr><td>All reports</td><td><code>reports/page.html</code>, published as the private claude.ai page "WindowShopper reports"</td></tr>
+  </tbody>
+</table>
+
+<h2>Who does what</h2>
+<table>
+  <thead><tr><th>Who</th><th>Does</th><th>Tools</th></tr></thead>
+  <tbody>
+    <tr><td>You</td><td>Say what you want and what matters to you, answer its questions, read the page</td><td></td></tr>
+    <tr><td>Session (Claude Code)</td><td>Asks what it can't infer, researches, adds the report to the page, publishes it, sends you the link</td><td><code>Read</code>, <code>Glob</code>, <code>Grep</code>, <code>Write</code>, <code>Edit</code>, <code>WebSearch</code>, <code>WebFetch</code>, <code>Artifact</code>, Claude in Chrome (reading pages, clicking only to close banners and pop-ups), <code>Agent</code> (the Checker; during a build also the builder)</td></tr>
+    <tr><td>Checker agent</td><td>As in "Rules for the repo": tests the brief, reviews build PRs</td><td>As in <code>.claude/agents/checker.md</code></td></tr>
+  </tbody>
+</table>
+
+<h2>How it works</h2>
+<svg class="flow" viewBox="0 0 420 440" role="img" aria-label="Flow: you ask, it asks what it can't infer, reads reviews into a longlist, finds prices and price history for it, narrows to a shortlist of up to three, adds the report to the private page and publishes it. A change you ask for goes back to the longlist.">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--edge)"/></marker>
+    <marker id="al" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--loop)"/></marker>
+  </defs>
+  <g>
+    <rect x="80" y="8" width="230" height="48" rx="8"/><text class="t" x="195" y="28" text-anchor="middle">"find: &lt;item&gt;, &lt;needs&gt;"</text><text class="s" x="195" y="45" text-anchor="middle">you, in chat</text>
+    <rect x="80" y="80" width="230" height="48" rx="8"/><text class="t" x="195" y="100" text-anchor="middle">Asks what it can't infer</text><text class="s" x="195" y="117" text-anchor="middle">often nothing</text>
+    <rect x="80" y="152" width="230" height="48" rx="8"/><text class="t" x="195" y="172" text-anchor="middle">Reads reviews, longlist</text><text class="s" x="195" y="189" text-anchor="middle">models that fit, sold in Canada</text>
+    <rect x="80" y="224" width="230" height="48" rx="8"/><text class="t" x="195" y="244" text-anchor="middle">Prices, then shortlist ≤ 3</text><text class="s" x="195" y="261" text-anchor="middle">price history, general and specialty stores</text>
+    <rect x="80" y="296" width="230" height="48" rx="8"/><text class="t" x="195" y="316" text-anchor="middle">Adds the report to the page</text><text class="s" x="195" y="333" text-anchor="middle">private claude.ai page, all reports</text>
+    <rect x="80" y="368" width="230" height="48" rx="8"/><text class="t" x="195" y="388" text-anchor="middle">You read it</text><text class="s" x="195" y="405" text-anchor="middle">buy on your own, or ask for a change</text>
+  </g>
+  <g>
+    <path class="a" d="M195,56 V78" marker-end="url(#ar)"/>
+    <path class="a" d="M195,128 V150" marker-end="url(#ar)"/>
+    <path class="a" d="M195,200 V222" marker-end="url(#ar)"/>
+    <path class="a" d="M195,272 V294" marker-end="url(#ar)"/>
+    <path class="a" d="M195,344 V366" marker-end="url(#ar)"/>
+  </g>
+  <g>
+    <path class="l" d="M80,392 H40 V176 H78" marker-end="url(#al)"/>
+    <text class="lt" x="34" y="284" transform="rotate(-90 34 284)" text-anchor="middle">you want a change</text>
+  </g>
+</svg>
+<ol>
+  <li><b>Ask.</b> You say <code>find: &lt;item&gt;</code> and whatever matters to you: budget, size, must-haves, deal-breakers.</li>
+  <li><b>Questions.</b> It asks only where your answer would change the picks and it can't be confident what you'd say. Each comes with a recommendation; "your call" takes it. Often there are none.</li>
+  <li><b>Longlist.</b> It reads reviews from the sources below and keeps every model that fits your needs, is well reviewed and is sold new in Canada: enough that price can still change the answer, often 5 to 8.</li>
+  <li><b>Prices.</b> For each longlist model, current prices in CAD at the stores that fit the item, each with its link, stock and the time checked. Price history where it can find it, and whether now is a good time to buy. It reads store and tracker pages in your Chrome through Claude in Chrome, so stores see a normal browser. On each site it first declines non-essential cookies and closes pop-ups. A price counts only for the exact model, new, with the seller named (store or marketplace seller) and what's included; one model can be listed at very different prices on the same store. If Chrome isn't reachable, a store refuses it (the extension blocks some, such as Canadian Tire's sites) or a page won't load, it falls back to search results and marks each such price with where it came from.</li>
+  <li><b>Shortlist.</b> With reviews and prices side by side, it narrows to up to 3: best overall, best value, and one alternative when it is worth knowing. Fewer is fine when one model clearly wins.</li>
+  <li><b>Report.</b> Added at the top of <code>reports/page.html</code> (made from <code>templates/page.html</code> on the first find), with its date and item in the page's contents list. The session publishes the page with the <code>Artifact</code> tool and sends you the link. On the first publish it writes the page's claude.ai URL into <code>reports/page.html</code> as <code>&lt;meta name="artifact-url"&gt;</code>; every later find or recheck passes that URL to <code>Artifact</code>, so the same page is updated, never a new one. The page is titled "WindowShopper reports".</li>
+  <li><b>Recheck.</b> <code>recheck &lt;report&gt;</code> refreshes the prices and price history of a past report, in place on the page, with the new check time, and publishes the page again.</li>
+</ol>
+
+<h2>Sources</h2>
+<p>Starting points, not limits: it picks what fits the item and says in the report what it used.</p>
+<table>
+  <thead><tr><th>For</th><th>Starts with</th></tr></thead>
+  <tbody>
+    <tr><td>Reviews</td><td>Sites that test products themselves, such as RTINGS, Wirecutter, CNET, Tom's Guide, Consumer Reports where readable, and specialists for the item. Reddit and owner reviews as a second opinion. Not ranked lists that only gather affiliate links</td></tr>
+    <tr><td>Prices</td><td>Amazon.ca, Walmart.ca, Best Buy, Canadian Tire, plus the Canadian specialty stores that fit the item, read in your Chrome. No Costco</td></tr>
+    <tr><td>Price history</td><td>Trackers such as <a href="https://ca.camelcamelcamel.com">ca.camelcamelcamel.com</a> and Keepa for Amazon.ca, and <a href="https://forums.redflagdeals.com">RedFlagDeals</a> for past sale prices</td></tr>
+  </tbody>
+</table>
+
+<h2>The report</h2>
+<p>One page holds every report, newest first, under a contents list of date, item and top pick. It is readable on a phone. Each report has the parts below, in order; <code>templates/page.html</code> holds the shape.</p>
+<ol>
+  <li><b>Answer.</b> What to buy and where, in two or three lines.</li>
+  <li><b>What you asked for.</b> Your needs, and anything it assumed.</li>
+  <li><b>The shortlist.</b> A comparison table, then each pick: why it fits you, what reviewers praise and criticise, who it is not for.</li>
+  <li><b>Where to buy.</b> Per pick: store, seller, price, stock, link, time checked; price history and whether to buy now or wait.</li>
+  <li><b>Left out.</b> The rest of the longlist and popular models it rejected, one line each with why, price included.</li>
+  <li><b>Sources.</b> Every review and page it used, linked.</li>
+</ol>
+
+<h2>Rules the reports hold to</h2>
+<table>
+  <thead><tr><th>Rule</th><th>Holds when</th></tr></thead>
+  <tbody>
+    <tr><td>Nothing invented</td><td>Every claim about a model links to where it came from; a price or history it couldn't get says so instead of guessing</td></tr>
+    <tr><td>Prices are dated</td><td>Every price has its store link and the time it was checked</td></tr>
+    <tr><td>Private</td><td>The page is a private claude.ai page, seen only by you; never a public link or site</td></tr>
+    <tr><td>Hands off your money</td><td>In Chrome it reads pages and clicks only to decline cookies or close pop-ups: it never signs in, types, adds to a cart or buys. Links are plain store links, no affiliate tags</td></tr>
+  </tbody>
+</table>
+
+<h2>Tasks</h2>
+<table>
+  <thead><tr><th>You say</th><th>Does</th></tr></thead>
+  <tbody>
+    <tr><td><code>find: &lt;item&gt;</code>, with any needs</td><td>Runs the flow, adds the report to the page, sends the link</td></tr>
+    <tr><td><code>recheck &lt;report&gt;</code></td><td>Refreshes that report's prices on the page and sends the link</td></tr>
+    <tr><td><code>reports</code></td><td>Lists past reports from the page's contents: date, item, top pick; and the link</td></tr>
+  </tbody>
+</table>
+
+<h2>Repo layout</h2>
+<table>
+  <thead><tr><th>Path</th><th>Holds</th></tr></thead>
+  <tbody>
+    <tr><td><code>BRIEF.html</code>, <code>CLAUDE.md</code>, <code>README.md</code></td><td>This spec; the other two say "Read <code>BRIEF.html</code>", and <code>README.md</code> also gives the Chrome setup below</td></tr>
+    <tr><td><code>templates/page.html</code></td><td>The page's shape: contents list, then one report section following "The report"</td></tr>
+    <tr><td><code>reports/</code></td><td><code>page.html</code>, the local copy of the page and its URL, made on the first find. Listed in <code>.gitignore</code>: not committed</td></tr>
+    <tr><td><code>.gitignore</code></td><td><code>reports/</code>, <code>.claude/settings.local.json</code></td></tr>
+    <tr><td><code>.claude/</code></td><td><code>settings.json</code> allowing exactly the Session tools above; <code>agents/checker.md</code></td></tr>
+  </tbody>
+</table>
+<p>No code. Needs Chrome with the Claude in Chrome extension, open on the computer the session runs on, and <code>/chrome</code> run once in Claude Code to connect it. <code>README.md</code> says both.</p>
+
+<h2>Rules for the repo</h2>
+<table>
+  <thead><tr><th>Rule</th><th>Holds when</th></tr></thead>
+  <tbody>
+    <tr><td>One source of truth. Logic starts here; once coded, the code owns it. Built code-owned sections (Data shapes, Rules the code holds to) collapse to one table: Rule (one line), Where (relative link), Status <code>Built</code>. The rest stays in full</td><td>No detail in both; every Built row links to its file</td></tr>
+    <tr><td>Every change goes through the brief: edit it to read as if the change exists, then a builder agent builds from it. A build's first PR adds a Plan table to "What done means": small steps, each deliverable alone, marked Done as they land; the last PR removes it</td><td>Every code change follows a brief change it implements</td></tr>
+    <tr><td>Buildability test before every build: a blank agent plans the build from the brief and what it links to. A finding is blocking if a builder couldn't proceed, or what it builds would likely fail a gate or not do what the brief is for. Only blocking findings change the brief; for a minor one the builder takes its default and the code records it</td><td>No build starts without a clear test of that version</td></tr>
+    <tr><td>Build PRs. The session starts both agents and passes turns between them. The builder is Claude Code's general-purpose agent in its own worktree, prompt "Build from <code>BRIEF.html</code>"; it takes the first Open plan step in its own worktree, opens a PR and waits. A blank Checker, prompt the PR number, reviews it with its own tests, no small nits, and a sync check (each Built row matches its file), then comments or squash-merges. The builder answers comments on the same PR. After 3 rounds, or anything the brief doesn't settle, you are asked and the answer goes in the brief</td><td>No PR merges until its tests pass (if it has code), the sync check finds no mismatch, and every relative link in the brief points to an existing file</td></tr>
+    <tr><td>No Markdown for data or logic</td><td>Data is JSON, logic is code, specs are HTML. Only <code>.md</code>: <code>CLAUDE.md</code> and <code>README.md</code> pointing to the brief, and agent files</td></tr>
+    <tr><td>Agents judge within bounds</td><td>An agent's role and boundaries take a few lines, in its agent file or these rules; the prompt holds only what changes per run. A long prompt or an exhaustive agent file means the brief is unclear, or a script should do it</td></tr>
+    <tr><td>Lean and KISS, the brief included</td><td>No sentence that doesn't change what gets built; fewest files; no abstraction before its second use; every dependency listed under Repo layout</td></tr>
+  </tbody>
+</table>
+
+<h2>Open decisions</h2>
+<p>None.</p>
+
+<h2>What done means</h2>
+<p>You say when a gate is met; the session marks it.</p>
+<table>
+  <thead><tr><th>Gate</th><th>Done when</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Built</td><td>The files under "Repo layout" exist and follow this brief</td><td>Open</td></tr>
+    <tr><td>First real find</td><td>One report for something you are actually buying, which you'd act on</td><td>Open</td></tr>
+    <tr><td>Honest prices</td><td>Every price you click in a report matches the store page on the day it was checked</td><td>Open</td></tr>
+    <tr><td>Any device</td><td>After two finds, the one page shows both reports on your phone, and nobody signed out can open it</td><td>Open</td></tr>
+    <tr><td>Recheck</td><td>A recheck of a report at least a week old updates its prices and history</td><td>Open</td></tr>
+  </tbody>
+</table>
+
+</body>
+</html>
