@@ -2,4 +2,11 @@
 
 Read BRIEF.html
 
-a shopping helper that will help me find the best brand and model for a product at best prices. A user would ask it to find what is the best brand and model for a particular item, the helper will analyze online reviews from reputable sites, identify the best models that would fit the criteria and the needs of the user, then find the prices and buying options for those models on common websites (amazon canada or walmart canada) and provide the user with a deep dive explanation of what brands and models are the best for them.
+## Setup
+
+- Run Claude Code on your computer, in this folder. Chrome, `reports/` and the session all live there. Cloud sessions are not supported.
+- Install the Claude in Chrome extension and sign it in to the same claude.ai account as Claude Code. Keep Chrome open while the session runs.
+- In Claude Code run `/chrome` and turn on "Enabled by default" (or start with `claude --chrome`). Running `/chrome` once without that does not keep Chrome connected in later sessions.
+- Without Chrome every price uses the fallback (WebFetch on the store page, then search results), so more prices come out labelled "from search, not verified on the store page".
+- From your phone: reach the same session through Claude Code remote access, and read the published "WindowShopper reports" page on claude.ai while signed in.
+- `.claude/settings.json` allows no Bash, git or gh, so during a build the builder's and Checker's Bash, git and gh calls come to you as permission prompts.
