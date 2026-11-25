@@ -83,7 +83,7 @@
   <li><b>Ask.</b> You say <code>find: &lt;item&gt;</code> and whatever matters to you: budget, size, must-haves, deal-breakers.</li>
   <li><b>Questions.</b> It asks only where your answer would change the picks and it can't be confident what you'd say. Each comes with a recommendation; "your call" takes it. Often there are none.</li>
   <li><b>Longlist.</b> It reads reviews from the sources below and keeps every model that fits your needs, is well reviewed and is sold new in Canada: enough that price can still change the answer, often 5 to 8.</li>
-  <li><b>Prices.</b> For each longlist model, current prices in CAD at the stores that fit the item, each with its link, stock and the time checked. Price history where it can find it, and whether now is a good time to buy. It reads store and tracker pages in your Chrome through Claude in Chrome, so stores see a normal browser. On each site it first declines non-essential cookies and closes pop-ups. A price counts only for the exact model, new, with the seller named (store or marketplace seller) and what's included; one model can be listed at very different prices on the same store. If Chrome isn't reachable, a store refuses it (the extension blocks some, such as Canadian Tire's sites) or a page won't load, it falls back to search results and marks each such price with where it came from.</li>
+  <li><b>Prices.</b> For each longlist model, current prices in CAD at the stores that fit the item, each with its link, stock and the time checked. Price history where it can find it, and whether now is a good time to buy. It reads store and tracker pages in your Chrome through Claude in Chrome, so stores see a normal browser. On each site it first declines non-essential cookies and closes pop-ups. A price counts only for the exact model, new, with the seller named (store or marketplace seller) and what's included; one model can be listed at very different prices on the same store. If Chrome isn't reachable, a store refuses it (the extension blocks some, such as Canadian Tire's sites) or a page won't load, it first tries <code>WebFetch</code> on the store page, then search results. A price it can't read on the store page is labelled "from search, not verified", linked to where it came from, and never used alone for the Answer.</li>
   <li><b>Shortlist.</b> With reviews and prices side by side, it narrows to up to 3: best overall, best value, and one alternative when it is worth knowing. Fewer is fine when one model clearly wins.</li>
   <li><b>Report.</b> Added at the top of <code>reports/page.html</code> (made from <code>templates/page.html</code> on the first find), with its date and item in the page's contents list. The session publishes the page with the <code>Artifact</code> tool and sends you the link. On the first publish it writes the page's claude.ai URL into <code>reports/page.html</code> as <code>&lt;meta name="artifact-url"&gt;</code>; every later find or recheck passes that URL to <code>Artifact</code>, so the same page is updated, never a new one. The page is titled "WindowShopper reports".</li>
   <li><b>Recheck.</b> <code>recheck &lt;report&gt;</code> refreshes the prices and price history of a past report, in place on the page, with the new check time, and publishes the page again.</li>
@@ -169,9 +169,19 @@
   <tbody>
     <tr><td>Built</td><td>The files under "Repo layout" exist and follow this brief</td><td>Open</td></tr>
     <tr><td>First real find</td><td>One report for something you are actually buying, which you'd act on</td><td>Open</td></tr>
-    <tr><td>Honest prices</td><td>Every price you click in a report matches the store page on the day it was checked</td><td>Open</td></tr>
+    <tr><td>Honest prices</td><td>Every price shown as verified matches the store page on the day it was checked</td><td>Open</td></tr>
     <tr><td>Any device</td><td>After two finds, the one page shows both reports on your phone, and nobody signed out can open it</td><td>Open</td></tr>
     <tr><td>Recheck</td><td>A recheck of a report at least a week old updates its prices and history</td><td>Open</td></tr>
+  </tbody>
+</table>
+
+<h3>Plan</h3>
+<table>
+  <thead><tr><th>Step</th><th>Delivers</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>1. Session permissions</td><td><code>.claude/settings.json</code> allowing exactly the Session tools (Claude in Chrome read and close-banner tools by full name; <code>form_input</code>, <code>javascript_tool</code>, <code>browser_batch</code> denied); <code>.gitignore</code> gets <code>reports/</code> added; this Plan table. <code>agents/checker.md</code> already matches</td><td>Done</td></tr>
+    <tr><td>2. Page template</td><td><code>templates/page.html</code>: artifact-url meta, contents list, the six report parts in order, each with a comment holding its rules and the build's defaults</td><td>Open</td></tr>
+    <tr><td>3. README and cleanup</td><td><code>README.md</code> with the Chrome and phone setup; <code>BUILD_REPORT.txt</code> deleted; this Plan removed</td><td>Open</td></tr>
   </tbody>
 </table>
 
