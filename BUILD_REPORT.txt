@@ -9,3 +9,13 @@ templates/page.html: One self-contained UTF-8 HTML file with inline CSS, no JS a
 Rules for the repo: tests (no code): No test suite. The Checker's temp checks: every Repo layout file exists; settings.json is valid JSON with the allow and deny lists above; the template has the contents list, the six parts in order and the artifact-url meta; .gitignore lists reports/ and .claude/settings.local.json; CLAUDE.md and README.md say 'Read BRIEF.html'. Today the brief has no relative links.
 Repo layout: reports/: Gitignored and created on the first find. The Built gate counts it as present once .gitignore lists it.
 Build PRs: GitHub remote: semechka create makes the GitHub repo and its remote before the first build PR.
+Honest prices labels: In Where to buy and Left out, each price is shown as verified (read on the store page in Chrome or with WebFetch) or labelled 'from search, not verified on the store page'. The template's Where to buy comment requires this label. Tracker history figures are history, not verified current prices.
+Answer with no verified price: The Answer still names the model, gives the unverified price with its label, and says no store price could be verified. It never names a store as the place to buy on an unverified price alone.
+Canadian Tire: Usually blocks WebFetch too, so its prices are mostly unverified. The report says so once instead of leaving it out without comment.
+Chrome setup in README: /chrome once does not keep Chrome connected in later sessions. README says to run /chrome and turn on 'Enabled by default' (or start with claude --chrome), with Chrome open and the extension signed in to the same claude.ai account as Claude Code.
+Store links: target="_blank" rel="noopener noreferrer" (artifact viewer is a sandboxed iframe). Deny mcp__claude-in-chrome__browser_batch as well as form_input and javascript_tool; use full mcp__claude-in-chrome__* permission names.
+Account pricing: If a price looks account-specific (Prime, member price), the report says so next to it. The session never signs in or out.
+Artifact title: Each publish passes the title 'WindowShopper reports'.
+README.md: Keep 'Read BRIEF.html'; replace the original idea paragraph with the Chrome and phone setup.
+Bash for builder and Checker: Not in settings.json; their Bash, git and gh calls go to the user as permission prompts.
+BUILD_REPORT.txt: The build's last PR deletes it once each default is recorded in the file it shapes (HTML comment in templates/page.html, or text in README.md).
