@@ -1,0 +1,14 @@
+Minor defaults from the buildability test of the Look change. The builder records each in the file it shapes and deletes this file in the last PR.
+Hero is the Answer: eyebrow with item and date, top pick's name, one short phrase on why it fits, three figures (price and store, saving vs usual, buy now or wait), Buy button, optional "Spend less" line. No separate Answer box.
+No verified store price: show the price with the "Not verified" tag, "No verified store" where the store would go, and a neutral "See listing" button to the source instead of "Buy at <store>".
+No price history: hero figure shows "No history" labelled "vs usual"; never estimate. Where to buy drops the range bar and shows "No price history found".
+Range bar: --at = (now - low) / (high - low) over the tracker's range.
+Shortlist comparison: the pick cards with matching figure grids (same 4 specs, same order on every card) are the comparison table. No separate table.
+Why it fits you: one short phrase per card under the price, styled like the hero's why line.
+Spec figures: one small source link per spec grid (e.g. "Specs: RTINGS"), styled like the .src tags.
+Dates: store rows show time only; the report eyebrow shows the check date. A recheck updates that date and adds "Rechecked <date>" to the hero eyebrow.
+Left out: each price is a plain store link, with the "Not verified" tag when it applies; the report's check date covers the time.
+Label: replace the old "from search, not verified on the store page" label and comment in templates/page.html with the .tag "Not verified" and the .legend note. Update README.md to quote "Not verified".
+Template keeps its doctype, head, charset, viewport, artifact-url meta, title and every guidance comment (recheck, change, Canadian Tire, account prices, fallback order). Add the design's claude:viewport-fit-sides meta. Self-contained, no JS.
+Design-only extras: drop the "Design preview" note. Keep header meta (report count, updated date), Compare button (to the report's -picks id) and footer, with comments on how to update count and date.
+Contents dates: short date with the year (e.g. Nov 25, 2026). Ids stay date-item slugs.
