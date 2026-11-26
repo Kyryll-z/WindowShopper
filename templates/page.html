@@ -139,7 +139,7 @@
   .tag { margin-left: 6px; padding: 1px 7px; border-radius: 980px; background: var(--warn-soft); color: var(--warn); font-size: 11px; font-weight: 600; white-space: nowrap; }
   .range { position: relative; height: 4px; margin: 34px 0 8px; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--line)); }
   .range i { position: absolute; top: 50%; left: var(--at); width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--tile); border: 3px solid var(--fg); }
-  .range b { position: absolute; bottom: 12px; left: var(--at); transform: translateX(-50%); font-size: 12px; font-weight: 600; color: var(--fg); white-space: nowrap; }
+  .range b { position: absolute; bottom: 12px; left: var(--at); transform: translateX(calc(var(--at) * -1)); font-size: 12px; font-weight: 600; color: var(--fg); white-space: nowrap; }
   .ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
   .ends a { color: var(--muted); }
   .nohist { margin: 14px 0 0; font-size: 12px; color: var(--muted); }
