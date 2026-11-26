@@ -2,6 +2,7 @@
 <!--
   Shape and look of reports/page.html. On the first find, copy this file to reports/page.html,
   fill one report <article> and its contents row, delete the example markers.
+  Every example and e.g. value here is a placeholder, never a real find.
   Self-contained: inline CSS and one inline script, no external resources, UTF-8.
   Publish with the Artifact tool, title "WindowShopper reports". After the first publish,
   put the page's claude.ai URL in the artifact-url meta below; every later find or
@@ -15,8 +16,8 @@
   Look: each report opens on the top pick's name, three figures and a Buy button; everything
   below is cards of figures and short phrases, never a sentence where a number or a few words
   will do. This file is the look reference.
-  Dates: contents and eyebrows use a short date with the year (Nov 25, 2026); ids stay
-  date-item slugs (2026-11-25-robot-vacuum). Store rows show the time only; the report
+  Dates: contents and eyebrows use a short date with the year (Jan 1, 2026); ids stay
+  date-item slugs (2026-01-01-item). Store rows show the time only; the report
   eyebrow's date covers it.
 -->
 <html lang="en">
@@ -203,7 +204,7 @@
   <!--
     Search box, then the contents list: one <li> per report, newest first: date (.d), item (.i),
     top pick (.p). Each link points to its own report's id, a date-item slug (e.g.
-    #2026-11-25-robot-vacuum); picking it opens that report, and the open report's row is marked
+    #2026-01-01-item); picking it opens that report, and the open report's row is marked
     current. Search narrows the rows to reports whose whole text, or row, contains the typed text
     (any case); an empty box shows every row; no match shows the .nomatch row. The open report
     stays. Keep the .nomatch row last.
@@ -243,7 +244,7 @@
       Figures:
         1. Price and store: equals a Where to buy row, never shown without one. Its link is the
            Buy button's link; the span gives the store and that row's time.
-        2. Saving vs usual: now minus usual, rounded to the dollar (e.g. −$50, or +$20 when above
+        2. Saving vs usual: now minus usual, rounded to the dollar (e.g. −$0, or +$0 when above
            usual), linked to the tracker. Usual price = the tracker's typical non-sale price over its
            range (camelcamelcamel/Keepa, or RedFlagDeals past regular price). Never the store's own
            "was" price unless the tracker confirms it. No history: <b>No history</b>, still
@@ -281,7 +282,7 @@
     <!--
       What you asked for: one chip per need as stated; .as chips for anything assumed; a dated chip
       for each change asked for later. Always one .as chip for the owner-rating bar used (e.g.
-      "Owner bar: 4.0★+, 100+ ratings"), adding a short note when low-star reviews couldn't be read
+      "Owner bar: 0.0★+, 0+ ratings"), adding a short note when low-star reviews couldn't be read
       (e.g. "· low-star reviews behind sign-in").
     -->
     <section class="part">
@@ -289,7 +290,7 @@
       <ul class="chips">
         <li>Need</li>
         <li class="as">Assumed: ...</li>
-        <li class="as">Owner bar: 4.0★+, 100+ ratings</li>
+        <li class="as">Owner bar: 0.0★+, 0+ ratings</li>
       </ul>
     </section>
 
@@ -306,20 +307,20 @@
       .minus line starting "Owners:" with its .src link to the review page (or Reddit), or
       "Owners: no repeated complaint"; the "Not for" line (.not) is the only one without a source.
       Owner rating (.owners): the store with the most ratings, linked to that store's reviews:
-      "4.4★ · 2,310 ratings · Amazon.ca"; add " · pooled" when ratings mix sizes or versions;
+      "0.0★ · 0 ratings · Store"; add " · pooled" when ratings mix sizes or versions;
       "No owner ratings" if none. The .grid4 stays 4 specs.
       Low-star reviews: reach sorted or filtered review pages by URL, never by clicking filters.
       Where reviews sit behind sign-in, use what the product page shows and say so in the
       owner-bar chip.
       No tested model fits: one Alternative card is the nearest tested model, badge
       <span class="badge plain">Nearest tested</span>, with its gap as a figure in its .why
-      (e.g. "+$80 over budget", the need it misses, or "Not sold in Canada"). It may come from
+      (e.g. "+$0 over budget", the need it misses, or "Not sold in Canada"). It may come from
       outside the longlist. If it has no Canadian store, its price is shown in its own currency
-      with the currency marked (e.g. US$129, never a plain $ amount), carries
+      with the currency marked (e.g. US$0, never a plain $ amount), carries
       <span class="tag">Not verified</span>, links to where it was found, and the card shows
       "Not sold in Canada"; never a Buy button for it. Its gap is "Not sold in Canada", plus a
-      budget gap only when converted to CAD with the rate and date given (e.g. "≈+$80 CAD over
-      budget · 1.40 on Nov 26, 2026").
+      budget gap only when converted to CAD with the rate and date given (e.g. "≈+$0 CAD over
+      budget · 0.00 on Mon D, YYYY").
     -->
     <section class="part" id="YYYY-MM-DD-item-picks">
       <div class="eyebrow">Shortlist</div>
@@ -374,7 +375,7 @@
       <p class="nohist">No price history found</p> instead.
       .legend: keep it whenever the report shows a Not verified tag.
       Nearest tested model with no Canadian store: its card shows the price found in its own
-      currency with the currency marked (e.g. US$129, never a plain $ amount), with
+      currency with the currency marked (e.g. US$0, never a plain $ amount), with
       <span class="tag">Not verified</span>, linked to its source, and "Not sold in Canada" where
       the seller goes, plus the four general-store "Not carried" rows. This is the only price
       shown without a verified store row; never a Buy
