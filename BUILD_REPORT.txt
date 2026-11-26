@@ -1,0 +1,4 @@
+Minor gaps from the Checker, with the defaults the builder uses:
+- The Checker finds the owner with gh repo view --json owner and compares it with the PR author before anything else. A skipped PR gets one line back to the session, e.g. 'PR N skipped: author X / fork'.
+- 'Examples' covers sample markup and e.g. values in template comments. Replace the dated slug 2026-11-25-robot-vacuum with 2026-01-01-item, and make sample figures obviously generic (e.g. 0.0★ · 0 ratings, +$0, US$0).
+- One-step Plan: update templates/page.html examples and the checker's owner check in .claude/agents/checker.md if it needs a line; settings.json unchanged.
