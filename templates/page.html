@@ -1,152 +1,354 @@
 <!doctype html>
 <!--
-  Shape of reports/page.html. On the first find, copy this file to reports/page.html,
-  fill one report section and the contents row, delete the example markers.
+  Shape and look of reports/page.html. On the first find, copy this file to reports/page.html,
+  fill one report <article> and its contents row, delete the example markers.
   Self-contained: inline CSS only, no JS, no external resources, UTF-8.
   Publish with the Artifact tool, title "WindowShopper reports". After the first publish,
   put the page's claude.ai URL in the artifact-url meta below; every later find or
   recheck passes that URL to Artifact so the same page is updated, never a new one.
   Newest report goes at the top, under the contents list.
+  Look: each report opens on the top pick's name, three figures and a Buy button; everything
+  below is cards of figures and short phrases, never a sentence where a number or a few words
+  will do. This file is the look reference.
+  Dates: contents and eyebrows use a short date with the year (Nov 25, 2026); ids stay
+  date-item slugs (2026-11-25-robot-vacuum). Store rows show the time only; the report
+  eyebrow's date covers it.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="artifact-url" content="">
 <title>WindowShopper reports</title>
 <style>
-  :root { --ink: #111827; --muted: #4b5563; --line: #e5e7eb; --bg: #ffffff; --box: #f4f6f9; --link: #1d4ed8; --warn: #b45309; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --ink: #e5e7eb; --muted: #9ca3af; --line: #374151; --bg: #111827; --box: #1f2937; --link: #93c5fd; --warn: #fbbf24; }
+  :root {
+    --paper: #faf9f5; --fill: #f0eee7; --tile: #ffffff; --fg: #0d2025; --body: #2b3338; --muted: #6b6f68; --line: #e3ddd0;
+    --band: #12201a; --band-fg: #ffffff; --band-muted: #b9b4a7; --stripe: #c9bfa9;
+    --accent: #0a7a0a; --accent-hi: #7ad47a; --accent-soft: #e4f1df; --on-accent: #ffffff; --warn: #9a5b00; --warn-soft: #f8ecd6;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+    --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
   }
-  :root[data-theme="dark"] { --ink: #e5e7eb; --muted: #9ca3af; --line: #374151; --bg: #111827; --box: #1f2937; --link: #93c5fd; --warn: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --paper: #0e1512; --fill: #17211c; --tile: #1c2722; --fg: #eeede8; --body: #d3d4cd; --muted: #9ba196; --line: #2a352f;
+    --band: #08100c; --band-fg: #ffffff; --band-muted: #9d998d; --stripe: #6f6858;
+    --accent: #7ad47a; --accent-hi: #7ad47a; --accent-soft: #1d3324; --on-accent: #08100c; --warn: #e9b25c; --warn-soft: #3a2c14; color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --paper: #0e1512; --fill: #17211c; --tile: #1c2722; --fg: #eeede8; --body: #d3d4cd; --muted: #9ba196; --line: #2a352f;
+    --band: #08100c; --band-fg: #ffffff; --band-muted: #9d998d; --stripe: #6f6858;
+    --accent: #7ad47a; --accent-hi: #7ad47a; --accent-soft: #1d3324; --on-accent: #08100c; --warn: #e9b25c; --warn-soft: #3a2c14; color-scheme: dark; }
+
   * { box-sizing: border-box; }
-  body { margin: 0 auto; padding: 24px 16px 48px; max-width: 880px; font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
-  h1 { font-size: 26px; margin: 0 0 12px; }
-  h2 { font-size: 21px; margin: 40px 0 4px; padding-top: 16px; border-top: 2px solid var(--line); }
-  h3 { font-size: 17px; margin: 24px 0 6px; }
-  h4 { font-size: 15px; margin: 16px 0 4px; }
-  p, ul { margin: 0 0 10px; }
-  a { color: var(--link); }
-  .muted { color: var(--muted); font-size: 13px; }
-  .answer { background: var(--box); padding: 12px 14px; border-radius: 8px; }
-  .unverified { color: var(--warn); font-size: 13px; }
-  .table { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 6px 0 12px; }
-  th, td { text-align: left; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--muted); font-weight: 600; font-size: 13px; }
+  body { margin: 0; background: var(--paper); color: var(--body); font: 400 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  .wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .eyebrow { font: 600 12px/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .num { font-variant-numeric: tabular-nums; }
+  .muted { color: var(--muted); }
+
+  /* Band */
+  .band { background: var(--band); }
+  .band .wrap { padding-block: 56px 28px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; }
+  .band .eyebrow { color: var(--accent-hi); }
+  .band h1 { margin: 8px 0 0; font: 600 clamp(40px, 7vw, 64px)/1 var(--display); letter-spacing: -0.03em; color: var(--band-fg); }
+  .band .meta { color: var(--band-muted); font-size: 14px; text-align: right; }
+  .stripe { height: 4px; background: var(--stripe); }
+
+  /* Contents */
+  .list { margin: 32px 0 0; background: var(--tile); border-radius: 16px; overflow: hidden; }
+  .list li + li { border-top: 1px solid var(--line); }
+  .list a { display: grid; grid-template-columns: 7.5em minmax(0, 1fr) auto 10px; gap: 4px 16px; align-items: center; padding: 14px 18px; color: var(--fg); }
+  .list a:hover { text-decoration: none; background: var(--accent-soft); }
+  .list .d { color: var(--muted); font-size: 13px; }
+  .list .i { font-weight: 600; }
+  .list .p { color: var(--muted); font-size: 14px; }
+  .list .c { width: 7px; height: 7px; border-top: 2px solid var(--muted); border-right: 2px solid var(--muted); transform: rotate(45deg); }
+  @media (max-width: 560px) { .list a { grid-template-columns: minmax(0, 1fr) 10px; } .list .c { grid-column: 2; grid-row: 1 / 4; } }
+
+  /* Hero */
+  .report { padding-block: 88px 0; }
+  .hero { text-align: center; }
+  .hero h2 { margin: 12px 0 0; font: 600 clamp(38px, 7vw, 64px)/1.02 var(--display); letter-spacing: -0.03em; color: var(--fg); }
+  .hero .why { margin: 10px 0 0; font-size: 18px; color: var(--body); }
+  .stats { display: flex; justify-content: center; flex-wrap: wrap; margin: 36px auto 0; }
+  .stats div { padding: 0 32px; }
+  .stats div + div { border-left: 1px solid var(--line); }
+  .stats b { display: block; font: 500 clamp(26px, 4vw, 34px)/1.1 var(--display); letter-spacing: -0.02em; color: var(--fg); }
+  .stats span { font-size: 13px; color: var(--muted); }
+  .stats .tag { font-size: 11px; color: var(--warn); }
+  @media (max-width: 560px) { .stats div { padding: 0 14px; } }
+  .btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 36px 0 0; }
+  .btn { min-width: min(210px, 100%); padding: 11px 24px; border-radius: 6px; font-weight: 600; font-size: 14px; text-align: center; }
+  .btn:hover { text-decoration: none; }
+  .btn.primary { background: var(--accent); color: var(--on-accent); }
+  .btn.ghost { background: var(--fill); color: var(--fg); }
+  .alt { margin: 18px 0 0; font-size: 14px; color: var(--muted); }
+  .alt b { color: var(--fg); font-weight: 600; }
+
+  /* Parts */
+  .part { margin: 88px 0 0; }
+  .part > .eyebrow { margin-bottom: 16px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips li { padding: 7px 14px; border-radius: 980px; background: var(--tile); color: var(--fg); font-size: 14px; }
+  .chips li.as { background: transparent; border: 1px dashed var(--line); color: var(--muted); }
+
+  /* Shortlist */
+  .picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 14px; }
+  .pick { min-width: 0; padding: 24px; border-radius: 16px; background: var(--tile); box-shadow: 0 0 0 1px var(--line) inset; }
+  .pick.top { box-shadow: 0 0 0 2px var(--accent) inset; }
+  .badge { display: inline-block; padding: 4px 10px; border-radius: 980px; background: var(--accent-soft); color: var(--accent); font: 600 11px/1.3 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; }
+  .badge.plain { background: var(--fill); color: var(--muted); }
+  .pick h3 { margin: 14px 0 0; font: 600 21px/1.2 var(--display); letter-spacing: -0.015em; color: var(--fg); }
+  .pick .price { margin: 2px 0 0; font: 500 30px/1.15 var(--display); letter-spacing: -0.02em; color: var(--fg); }
+  .pick .price a { color: var(--fg); }
+  .pick .why { margin: 6px 0 0; font-size: 15px; color: var(--body); }
+  .grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 0; padding: 16px 0; border-block: 1px solid var(--line); }
+  .grid4 b { display: block; font: 500 17px/1.2 var(--display); color: var(--fg); }
+  .grid4 span { font-size: 12px; color: var(--muted); }
+  .specs { margin: 8px 0 0; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--muted); }
+  .pc { margin: 16px 0 0; display: grid; gap: 6px; font-size: 14px; }
+  .pc li { display: flex; gap: 8px; align-items: baseline; }
+  .pc li::before { flex: none; width: 12px; font-weight: 700; }
+  .pc .plus::before { content: "+"; color: var(--accent); }
+  .pc .minus::before { content: "\2212"; color: var(--warn); }
+  .pc .not::before { content: "\00d7"; color: var(--muted); }
+  .pc .not { color: var(--muted); }
+  .src { margin-left: auto; padding-left: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
+  .specs .src { margin-left: 0; padding-left: 4px; }
+
+  /* Where to buy */
+  .buy { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; }
+  .card { min-width: 0; padding: 22px 22px 18px; border-radius: 16px; background: var(--tile); }
+  .card .head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .card h3 { margin: 0; font: 600 17px/1.25 var(--display); color: var(--fg); }
+  .verdict { padding: 4px 10px; border-radius: 980px; font-size: 12px; font-weight: 600; white-space: nowrap; background: var(--accent-soft); color: var(--accent); }
+  .verdict.wait { background: var(--warn-soft); color: var(--warn); }
+  .stores { margin: 12px 0 0; }
+  .stores li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 10px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .stores .s a { color: var(--fg); font-weight: 600; }
+  .stores .amt { font-weight: 600; color: var(--fg); font-size: 16px; text-align: right; }
+  .stores small { font-size: 12px; color: var(--muted); }
+  .stores small.r { text-align: right; }
+  .dot::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--accent); vertical-align: 1px; }
+  .dot.low::before { background: var(--warn); }
+  .dot.unk::before { background: var(--muted); }
+  .tag { margin-left: 6px; padding: 1px 7px; border-radius: 980px; background: var(--warn-soft); color: var(--warn); font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .range { position: relative; height: 4px; margin: 34px 0 8px; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--line)); }
+  .range i { position: absolute; top: 50%; left: var(--at); width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--tile); border: 3px solid var(--fg); }
+  .range b { position: absolute; bottom: 12px; left: var(--at); transform: translateX(-50%); font-size: 12px; font-weight: 600; color: var(--fg); white-space: nowrap; }
+  .ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+  .ends a { color: var(--muted); }
+  .nohist { margin: 14px 0 0; font-size: 12px; color: var(--muted); }
+  .legend { margin: 12px 0 0; font-size: 12px; color: var(--muted); }
+
+  /* Left out */
+  .out { background: var(--tile); border-radius: 16px; overflow: hidden; }
+  .out li { display: grid; grid-template-columns: minmax(0, 13em) 6em minmax(0, 1fr); gap: 2px 16px; padding: 12px 18px; font-size: 14px; }
+  .out li + li { border-top: 1px solid var(--line); }
+  .out b { color: var(--fg); font-weight: 600; }
+  .out .num { text-align: right; }
+  .out .num a { color: var(--fg); }
+  @media (max-width: 560px) { .out li { grid-template-columns: minmax(0, 1fr) auto; } .out .muted { grid-column: 1 / -1; } }
+
+  /* Sources */
+  .sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 20px 32px; font-size: 14px; }
+  .sources ul { margin: 8px 0 0; display: grid; gap: 4px; }
+
+  footer { margin: 88px 0 0; padding-block: 20px 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; text-align: center; }
 </style>
 </head>
 <body>
 
-<h1>WindowShopper reports</h1>
-
 <!--
-  Contents list: one row per report, newest first: date, item, top pick.
-  Item links to the report's id, a date-item slug (e.g. 2026-11-25-robot-vacuum).
-  The "reports" task reads past reports from this table.
+  Header meta: "<N> finds" = the number of reports on the page ("1 find" for one);
+  "Updated <date>" = the date of the latest find or recheck. Update both on every publish.
 -->
-<div class="table">
-<table>
-  <thead><tr><th>Date</th><th>Item</th><th>Top pick</th></tr></thead>
-  <tbody>
-    <tr><td>YYYY-MM-DD</td><td><a href="#YYYY-MM-DD-item">Item</a></td><td>Model</td></tr>
-  </tbody>
-</table>
-</div>
+<header class="band">
+  <div class="wrap">
+    <div><div class="eyebrow">WindowShopper</div><h1>Reports</h1></div>
+    <div class="meta">1 find<br>Updated Mon D, YYYY</div>
+  </div>
+</header>
+<div class="stripe"></div>
 
-<!-- ===== Report section: copy this whole <section> for each find, newest at the top ===== -->
-<section id="YYYY-MM-DD-item">
-<h2>Item</h2>
-<p class="muted">Found YYYY-MM-DD</p>
-<!--
-  recheck <report>: <report> matches an item or date in the contents list; if more than one
-  matches, ask. Add "Rechecked <date>" here, under the heading. Update prices, stock, time
-  checked, price history and buy-now-or-wait in Where to buy, and the prices in Left out.
-  Change the Answer only if the best place to buy changed. Republish to the artifact URL.
-  A change you ask for: re-run from Longlist with the changed needs, replace this section in
-  place (same position), note the change under What you asked for, republish to the same URL.
--->
+<main class="wrap">
 
-<h3>Answer</h3>
-<!--
-  What to buy and where, in two or three lines.
-  "Where" only from a price verified on the store page. If no store price could be verified:
-  still name the model, give the unverified price with its label, say no store price could be
-  verified, and never name a store as the place to buy on an unverified price alone.
--->
-<div class="answer"><p>Buy <b>Model</b> at <a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a> for $0.00 CAD.</p></div>
+  <!--
+    Contents list: one <li> per report, newest first: date (.d), item (.i), top pick (.p).
+    Each link points to its own report's id, a date-item slug (e.g. #2026-11-25-robot-vacuum).
+    The "reports" task reads past reports from this list: date, item, top pick.
+  -->
+  <nav aria-label="Contents">
+    <ul class="list">
+      <li><a href="#YYYY-MM-DD-item"><span class="d num">Mon D, YYYY</span><span class="i">Item</span><span class="p">Model</span><span class="c" aria-hidden="true"></span></a></li>
+    </ul>
+  </nav>
 
-<h3>What you asked for</h3>
-<!-- Your needs as stated, then anything assumed, and any changes asked for later (dated). -->
-<ul>
-  <li>Need</li>
-  <li>Assumed: ...</li>
-</ul>
+  <!-- ===== Report: copy this whole <article> for each find, newest at the top ===== -->
+  <article class="report" id="YYYY-MM-DD-item">
+    <!--
+      recheck <report>: <report> matches an item or date in the contents list; if more than one
+      matches, ask. Update the eyebrow's date to the new check date and add "Rechecked <date>" to
+      it. Update prices, stock, time checked, price history and buy-now-or-wait in Where to buy,
+      the hero and pick-card figures that mirror them, and the prices in Left out.
+      Change the top pick and Buy button only if the best place to buy changed. Republish to the
+      artifact URL.
+      A change you ask for: re-run from Longlist with the changed needs, replace this <article> in
+      place (same position, same id), add the change as a dated chip under You asked for,
+      republish to the same URL.
+    -->
 
-<h3>The shortlist</h3>
-<!--
-  Up to 3: best overall, best value, one alternative when worth knowing. Fewer when one clearly wins.
-  Comparison table, then per pick: why it fits you, what reviewers praise and criticise
-  (each claim linked to its source), who it is not for.
--->
-<div class="table">
-<table>
-  <thead><tr><th>Pick</th><th>Model</th><th>Best price</th><th>Key specs</th></tr></thead>
-  <tbody>
-    <tr><td>Best overall</td><td>Model</td><td>$0.00</td><td>...</td></tr>
-  </tbody>
-</table>
-</div>
-<h4>Best overall: Model</h4>
-<p><b>Why it fits you:</b> ...</p>
-<p><b>Reviewers praise:</b> ... (<a href="https://review.example" target="_blank" rel="noopener noreferrer">Source</a>)</p>
-<p><b>Reviewers criticise:</b> ...</p>
-<p><b>Not for:</b> ...</p>
+    <!--
+      Answer = this hero. No separate Answer box.
+      Eyebrow: item · check date (· Rechecked <date> after a recheck). Then the top pick's name,
+      one short phrase on why it fits (summarising linked claims below, never a new claim),
+      three figures, the Buy button, the Compare button (to this report's -picks id) and an
+      optional "Spend less" line naming a cheaper pick.
+      Figures:
+        1. Price and store: equals a Where to buy row, never shown without one. Its link is the
+           Buy button's link; the span gives the store and that row's time.
+        2. Saving vs usual: now minus usual, rounded to the dollar (e.g. −$50, or +$20 when above
+           usual), linked to the tracker. Usual price = the tracker's typical non-sale price over its
+           range (camelcamelcamel/Keepa, or RedFlagDeals past regular price). Never the store's own
+           "was" price unless the tracker confirms it. No history: <b>No history</b>, still
+           labelled "vs usual"; never estimate.
+        3. Buy now or Wait, labelled "price history". No history: <b>No history</b>.
+      "Where" only from a price verified on the store page. If no store price could be verified:
+      still name the model; figure 1 shows the price with <span class="tag">Not verified</span>
+      and "No verified store" in its span; the primary button becomes a neutral
+      <a class="btn ghost" href="<source link>">See listing</a>. Never name a store as the place
+      to buy on an unverified price alone.
+    -->
+    <div class="hero">
+      <div class="eyebrow">Item · Mon D, YYYY</div>
+      <h2>Model</h2>
+      <p class="why">Short phrase on why it fits.</p>
+      <div class="stats num">
+        <div><a href="https://store.example/product" target="_blank" rel="noopener noreferrer"><b>$0.00</b></a><span>Store · 0:00 AM</span></div>
+        <div><a href="https://ca.camelcamelcamel.com" target="_blank" rel="noopener noreferrer"><b>−$0</b></a><span>vs usual</span></div>
+        <div><b>Buy now</b><span>price history</span></div>
+      </div>
+      <div class="btns">
+        <a class="btn primary" href="https://store.example/product" target="_blank" rel="noopener noreferrer">Buy at Store</a>
+        <a class="btn ghost" href="#YYYY-MM-DD-item-picks">Compare</a>
+      </div>
+      <p class="alt">Spend less: <b>Model</b>, <a href="https://store.example/product" target="_blank" rel="noopener noreferrer">$0</a> at Store · checked 0:00 AM</p>
+    </div>
 
-<h3>Where to buy</h3>
-<!--
-  Per pick: store, seller (store or named marketplace seller), price CAD, stock, link, time checked.
-  Only the exact model, new, with what's included. Links are plain <a href> store links, no
-  affiliate or tracking parameters, with target="_blank" rel="noopener noreferrer".
-  Every price is either verified (read on the store page in Chrome or with WebFetch) or carries
-  the label <span class="unverified">from search, not verified on the store page</span> and links
-  to where it came from. Fallback order when Chrome can't read a store: WebFetch the store page,
-  then search results.
-  Canadian Tire: blocked by the Chrome extension and usually by WebFetch, so its prices are mostly
-  unverified; say so once in this part rather than leaving it out without comment.
-  Account-specific prices (Prime, member price): say so next to the price. Never sign in or out.
-  Then price history (tracker figures are history, not verified current prices; link the tracker)
-  and whether to buy now or wait. If no history was found, say so.
--->
-<h4>Model</h4>
-<div class="table">
-<table>
-  <thead><tr><th>Store</th><th>Seller</th><th>Price</th><th>Stock</th><th>Checked</th></tr></thead>
-  <tbody>
-    <tr><td><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a></td><td>Store</td><td>$0.00</td><td>In stock</td><td>YYYY-MM-DD HH:MM</td></tr>
-    <tr><td><a href="https://search.example/result" target="_blank" rel="noopener noreferrer">Store</a></td><td>Seller</td><td>$0.00 <span class="unverified">from search, not verified on the store page</span></td><td>Unknown</td><td>YYYY-MM-DD HH:MM</td></tr>
-  </tbody>
-</table>
-</div>
-<p><b>Price history:</b> ... (<a href="https://ca.camelcamelcamel.com" target="_blank" rel="noopener noreferrer">tracker</a>). <b>Buy now or wait:</b> ...</p>
+    <!-- What you asked for: one chip per need as stated; .as chips for anything assumed; a dated chip for each change asked for later. -->
+    <section class="part">
+      <div class="eyebrow">You asked for</div>
+      <ul class="chips">
+        <li>Need</li>
+        <li class="as">Assumed: ...</li>
+      </ul>
+    </section>
 
-<h3>Left out</h3>
-<!--
-  The rest of the longlist and popular models rejected, one line each: model, price (with the
-  same verified / unverified label rules as Where to buy), and why.
--->
-<ul>
-  <li><b>Model</b>, $0.00 at <a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a>: why.</li>
-</ul>
+    <!--
+      Shortlist: up to 3: best overall (.pick.top, badge "Best overall"), best value (badge
+      "Best value"), one alternative when worth knowing (badge "Alternative", .badge.plain).
+      Fewer when one clearly wins. The cards are the comparison table: every card has the same
+      4 specs in the same order in its .grid4. No separate table.
+      Per card: price = a plain link to the same store as its Where to buy row (never shown
+      without one); .why = one short phrase on why it fits you; one "Specs: <source>" link per
+      spec grid; then what reviewers praise (.plus) and criticise (.minus), each with its .src
+      link; the "Not for" line (.not) is the only one without a source.
+    -->
+    <section class="part" id="YYYY-MM-DD-item-picks">
+      <div class="eyebrow">Shortlist</div>
+      <div class="picks">
+        <div class="pick top">
+          <span class="badge">Best overall</span>
+          <h3>Model</h3>
+          <div class="price num"><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">$0.00</a></div>
+          <p class="why">Short phrase on why it fits you.</p>
+          <div class="grid4 num">
+            <div><b>Value</b><span>Spec 1</span></div><div><b>Value</b><span>Spec 2</span></div>
+            <div><b>Value</b><span>Spec 3</span></div><div><b>Value</b><span>Spec 4</span></div>
+          </div>
+          <p class="specs">Specs: <a class="src" href="https://review.example" target="_blank" rel="noopener noreferrer">SOURCE</a></p>
+          <ul class="pc">
+            <li class="plus">Praise <a class="src" href="https://review.example" target="_blank" rel="noopener noreferrer">SOURCE</a></li>
+            <li class="minus">Criticism <a class="src" href="https://review.example" target="_blank" rel="noopener noreferrer">SOURCE</a></li>
+            <li class="not">Not for ...</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-<h3>Sources</h3>
-<!-- Every review, store and tracker page used, linked. Say which review sites were used. -->
-<ul>
-  <li><a href="https://review.example" target="_blank" rel="noopener noreferrer">Source title</a></li>
-</ul>
-</section>
-<!-- ===== End report section ===== -->
+    <!--
+      Where to buy: one .card per shortlist pick, in shortlist order.
+      Per store row: store link, seller (store or named marketplace seller), price CAD, stock
+      (.dot in stock, .dot.low few left, .dot.unk unknown), time checked (time only).
+      Only the exact model, new, with what's included. Links are plain <a href> store links, no
+      affiliate or tracking parameters, with target="_blank" rel="noopener noreferrer".
+      Every price is either verified (read on the store page in Chrome or with WebFetch) or
+      carries <span class="tag">Not verified</span> after the store name, links to where it came
+      from, and says "from search" where the seller goes. Fallback order when Chrome can't read a
+      store: WebFetch the store page, then search results.
+      Canadian Tire: blocked by the Chrome extension and usually by WebFetch, so its prices are
+      mostly Not verified; say so once in the .legend line rather than leaving it out without comment.
+      Account-specific prices (Prime, member price): say so in the row's seller line
+      (e.g. "· Prime price"). Never sign in or out.
+      Price history (tracker figures are history, not verified current prices): the .range bar,
+      --at = (now - low) / (high - low) over the tracker's range, as a percentage; .ends gives
+      low, the range linked to the tracker, and high. The .verdict pill says buy now or wait
+      (.verdict.wait for wait). No history found: drop the pill and the range bar, and show
+      <p class="nohist">No price history found</p> instead.
+      .legend: keep it whenever the report shows a Not verified tag.
+    -->
+    <section class="part">
+      <div class="eyebrow">Where to buy</div>
+      <div class="buy">
+        <div class="card">
+          <div class="head"><h3>Model</h3><span class="verdict">Buy now</span></div>
+          <ul class="stores">
+            <li><span class="s"><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a></span><span class="amt num">$0.00</span><small><span class="dot">In stock</span> · Seller</small><small class="r num">0:00 AM</small></li>
+            <li><span class="s"><a href="https://search.example/result" target="_blank" rel="noopener noreferrer">Store</a><span class="tag">Not verified</span></span><span class="amt num">$0.00</span><small><span class="dot unk">Unknown</span> · from search</small><small class="r num">0:00 AM</small></li>
+          </ul>
+          <div class="range" style="--at: 50%"><b class="num">Now $0</b><i></i></div>
+          <div class="ends num"><span>Low $0</span><a href="https://ca.camelcamelcamel.com" target="_blank" rel="noopener noreferrer">12 months</a><span>High $0</span></div>
+        </div>
+      </div>
+      <p class="legend">Not verified: price from search results, not read on the store page.</p>
+    </section>
+
+    <!--
+      Left out: the rest of the longlist and popular models rejected, one row each: model, price
+      as a plain store link (with <span class="tag">Not verified</span> after the model name when
+      it applies; the report's check date covers the time), and why in a few words.
+    -->
+    <section class="part">
+      <div class="eyebrow">Left out</div>
+      <ul class="out">
+        <li><span><b>Model</b></span><span class="num"><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">$0.00</a></span><span class="muted">Why</span></li>
+      </ul>
+    </section>
+
+    <!-- Sources: every review, store and tracker page used, linked, grouped as Reviews, Stores, Price history. -->
+    <section class="part">
+      <div class="eyebrow">Sources</div>
+      <div class="sources">
+        <div><span class="muted">Reviews</span><ul>
+          <li><a href="https://review.example" target="_blank" rel="noopener noreferrer">Source title</a></li>
+        </ul></div>
+        <div><span class="muted">Stores</span><ul>
+          <li><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a></li>
+        </ul></div>
+        <div><span class="muted">Price history</span><ul>
+          <li><a href="https://ca.camelcamelcamel.com" target="_blank" rel="noopener noreferrer">Tracker</a></li>
+        </ul></div>
+      </div>
+    </section>
+  </article>
+  <!-- ===== End report ===== -->
+
+  <footer>Prices in CAD, as checked. Never signs in. Never buys.</footer>
+</main>
 
 </body>
 </html>
