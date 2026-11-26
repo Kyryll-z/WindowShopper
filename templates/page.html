@@ -138,6 +138,7 @@
   .stores .amt { font-weight: 600; color: var(--fg); font-size: 16px; text-align: right; }
   .stores small { font-size: 12px; color: var(--muted); }
   .stores small.r { text-align: right; }
+  .stores li.none .s a, .stores li.none .amt { color: var(--muted); font-weight: 500; }
   .dot::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--accent); vertical-align: 1px; }
   .dot.low::before { background: var(--warn); }
   .dot.unk::before { background: var(--muted); }
@@ -200,6 +201,8 @@
       matches, ask. Update the eyebrow's date to the new check date and add "Rechecked <date>" to
       it. Update prices, stock, time checked, price history and buy-now-or-wait in Where to buy,
       the hero and pick-card figures that mirror them, and the prices in Left out.
+      Prices use the current Where to buy rules, so add rows for any general store the old report
+      didn't check (price, Not carried or Couldn't read).
       Change the top pick and Buy button only if the best place to buy changed. Owner ratings and
       owners' complaints stay as of the report date; a recheck refreshes prices and history only.
       Republish to the artifact URL.
@@ -321,6 +324,9 @@
 
     <!--
       Where to buy: one .card per shortlist pick, in shortlist order.
+      General stores = Amazon.ca, Walmart.ca, Best Buy, Canadian Tire: always all four, a row each,
+      for every pick. "Starting points, not limits" covers specialty stores, review sites and
+      trackers only.
       Per store row: store link, seller (store or named marketplace seller), price CAD, stock
       (.dot in stock, .dot.low few left, .dot.unk unknown), time checked (time only).
       Only the exact model, new, with what's included. Links are plain <a href> store links, no
@@ -328,9 +334,14 @@
       Every price is either verified (read on the store page in Chrome or with WebFetch) or
       carries <span class="tag">Not verified</span> after the store name, links to where it came
       from, and says "from search" where the seller goes. Fallback order when Chrome can't read a
-      store: WebFetch the store page, then search results.
-      Canadian Tire: blocked by the Chrome extension and usually by WebFetch, so its prices are
-      mostly Not verified; say so once in the .legend line rather than leaving it out without comment.
+      store: wait for results to show and retry; open the product URL directly if a result won't
+      open; then WebFetch the store page; then search results.
+      Store that doesn't carry the model: a li.none row, store linked to the store search page
+      checked, "Not carried" where the price goes, no stock dot, the time.
+      Store that carries it but stays unreadable after the whole fallback order: a li.none row,
+      store linked to the page tried, "Couldn't read" where the price goes, the time. If search
+      results gave a price, use a Not verified row instead.
+      li.none rows appear only in Where to buy cards, never in Left out or the .legend.
       Account-specific prices (Prime, member price): say so in the row's seller line
       (e.g. "· Prime price"). Never sign in or out.
       Price history (tracker figures are history, not verified current prices): the .range bar,
@@ -353,6 +364,8 @@
           <ul class="stores">
             <li><span class="s"><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a></span><span class="amt num">$0.00</span><small><span class="dot">In stock</span> · Seller</small><small class="r num">0:00 AM</small></li>
             <li><span class="s"><a href="https://search.example/result" target="_blank" rel="noopener noreferrer">Store</a><span class="tag">Not verified</span></span><span class="amt num">$0.00</span><small><span class="dot unk">Unknown</span> · from search</small><small class="r num">0:00 AM</small></li>
+            <li class="none"><span class="s"><a href="https://store.example/search?q=model" target="_blank" rel="noopener noreferrer">Store</a></span><span class="amt">Not carried</span><small>Store search</small><small class="r num">0:00 AM</small></li>
+            <li class="none"><span class="s"><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">Store</a></span><span class="amt">Couldn't read</span><small>Product page</small><small class="r num">0:00 AM</small></li>
           </ul>
           <div class="range" style="--at: 50%"><b class="num">Now $0</b><i></i></div>
           <div class="ends num"><span>Low $0</span><a href="https://ca.camelcamelcamel.com" target="_blank" rel="noopener noreferrer">12 months</a><span>High $0</span></div>
