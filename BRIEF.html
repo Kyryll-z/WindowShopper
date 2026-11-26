@@ -54,7 +54,7 @@
 </table>
 
 <h2>How it works</h2>
-<svg class="flow" viewBox="0 0 420 440" role="img" aria-label="Flow: you ask, it asks what it can't infer, reads reviews into a longlist, finds prices and price history for it, narrows to a shortlist of up to three, adds the report to the private page and publishes it. A change you ask for goes back to the longlist.">
+<svg class="flow" viewBox="0 0 420 440" role="img" aria-label="Flow: you ask, it asks what it can't infer, reads reviews into a longlist, finds prices and price history for it, narrows to a shortlist of up to four, adds the report to the private page and publishes it. A change you ask for goes back to the longlist.">
   <defs>
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--edge)"/></marker>
     <marker id="al" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--loop)"/></marker>
@@ -62,8 +62,8 @@
   <g>
     <rect x="80" y="8" width="230" height="48" rx="8"/><text class="t" x="195" y="28" text-anchor="middle">"find: &lt;item&gt;, &lt;needs&gt;"</text><text class="s" x="195" y="45" text-anchor="middle">you, in chat</text>
     <rect x="80" y="80" width="230" height="48" rx="8"/><text class="t" x="195" y="100" text-anchor="middle">Asks what it can't infer</text><text class="s" x="195" y="117" text-anchor="middle">often nothing</text>
-    <rect x="80" y="152" width="230" height="48" rx="8"/><text class="t" x="195" y="172" text-anchor="middle">Reads reviews, longlist</text><text class="s" x="195" y="189" text-anchor="middle">models that fit, sold in Canada</text>
-    <rect x="80" y="224" width="230" height="48" rx="8"/><text class="t" x="195" y="244" text-anchor="middle">Prices, then shortlist ≤ 3</text><text class="s" x="195" y="261" text-anchor="middle">price history, general and specialty stores</text>
+    <rect x="80" y="152" width="230" height="48" rx="8"/><text class="t" x="195" y="172" text-anchor="middle">Reads reviews, longlist</text><text class="s" x="195" y="189" text-anchor="middle">testers and owners, sold in Canada</text>
+    <rect x="80" y="224" width="230" height="48" rx="8"/><text class="t" x="195" y="244" text-anchor="middle">Prices, then shortlist ≤ 4</text><text class="s" x="195" y="261" text-anchor="middle">price history, general and specialty stores</text>
     <rect x="80" y="296" width="230" height="48" rx="8"/><text class="t" x="195" y="316" text-anchor="middle">Adds the report to the page</text><text class="s" x="195" y="333" text-anchor="middle">private claude.ai page, all reports</text>
     <rect x="80" y="368" width="230" height="48" rx="8"/><text class="t" x="195" y="388" text-anchor="middle">You read it</text><text class="s" x="195" y="405" text-anchor="middle">buy on your own, or ask for a change</text>
   </g>
@@ -82,9 +82,9 @@
 <ol>
   <li><b>Ask.</b> You say <code>find: &lt;item&gt;</code> and whatever matters to you: budget, size, must-haves, deal-breakers.</li>
   <li><b>Questions.</b> It asks only where your answer would change the picks and it can't be confident what you'd say. Each comes with a recommendation; "your call" takes it. Often there are none.</li>
-  <li><b>Longlist.</b> It reads reviews from the sources below and keeps every model that fits your needs, is well reviewed and is sold new in Canada: enough that price can still change the answer, often 5 to 8.</li>
+  <li><b>Longlist.</b> It reads tested reviews and owner ratings from the sources below and keeps every model that fits your needs, is sold new in Canada and holds up with testers or with owners: enough that price can still change the answer, often 6 to 10. Owner evidence is the stars, the number of ratings, and repeated failures in recent low-star reviews; ratings pooled across sizes or versions and incentivized reviews count less. The bar for owner ratings is its call per item, and the report says what it used.</li>
   <li><b>Prices.</b> For each longlist model, current prices in CAD at the stores that fit the item, each with its link, stock and the time checked. Price history where it can find it, and whether now is a good time to buy. It reads store and tracker pages in your Chrome through Claude in Chrome, so stores see a normal browser. On each site it first declines non-essential cookies and closes pop-ups. A price counts only for the exact model, new, with the seller named (store or marketplace seller) and what's included; one model can be listed at very different prices on the same store. If Chrome isn't reachable, a store refuses it (the extension blocks some, such as Canadian Tire's sites) or a page won't load, it first tries <code>WebFetch</code> on the store page, then search results. A price it can't read on the store page is tagged "Not verified", linked to where it came from, and never used alone for the Answer; one note under "Where to buy" says what the tag means.</li>
-  <li><b>Shortlist.</b> With reviews and prices side by side, it narrows to up to 3: best overall, best value, and one alternative when it is worth knowing. Fewer is fine when one model clearly wins.</li>
+  <li><b>Shortlist.</b> With reviews and prices side by side, it narrows to up to 4: best overall, best value, and up to two alternatives worth knowing. Fewer is fine when one model clearly wins. When no tested model fits your needs, budget and a Canadian store, the Answer says so first, and one alternative is the nearest tested model with its price gap.</li>
   <li><b>Report.</b> Added at the top of <code>reports/page.html</code> (made from <code>templates/page.html</code> on the first find), with its date and item in the page's contents list. The session publishes the page with the <code>Artifact</code> tool and sends you the link. On the first publish it writes the page's claude.ai URL into <code>reports/page.html</code> as <code>&lt;meta name="artifact-url"&gt;</code>; every later find or recheck passes that URL to <code>Artifact</code>, so the same page is updated, never a new one. The page is titled "WindowShopper reports".</li>
   <li><b>Recheck.</b> <code>recheck &lt;report&gt;</code> refreshes the prices and price history of a past report, in place on the page, with the new check time, and publishes the page again.</li>
 </ol>
@@ -94,7 +94,7 @@
 <table>
   <thead><tr><th>For</th><th>Starts with</th></tr></thead>
   <tbody>
-    <tr><td>Reviews</td><td>Sites that test products themselves, such as RTINGS, Wirecutter, CNET, Tom's Guide, Consumer Reports where readable, and specialists for the item. Reddit and owner reviews as a second opinion. Not ranked lists that only gather affiliate links</td></tr>
+    <tr><td>Reviews</td><td>Sites that test products themselves, such as RTINGS, Wirecutter, CNET, Tom's Guide, Consumer Reports where readable, and specialists for the item. Owner ratings and reviews on the Canadian store pages, for every item. Reddit as a second opinion. Not ranked lists that only gather affiliate links</td></tr>
     <tr><td>Prices</td><td>Amazon.ca, Walmart.ca, Best Buy, Canadian Tire, plus the Canadian specialty stores that fit the item, read in your Chrome. No Costco</td></tr>
     <tr><td>Price history</td><td>Trackers such as <a href="https://ca.camelcamelcamel.com">ca.camelcamelcamel.com</a> and Keepa for Amazon.ca, and <a href="https://forums.redflagdeals.com">RedFlagDeals</a> for past sale prices</td></tr>
   </tbody>
@@ -105,8 +105,8 @@
 <p>It looks like <a href="https://claude.ai/artifact/2bdAi5kiAn1Rmxjs6ES7BX">the design</a>: each report opens on the top pick's name, three figures (price and store, saving against the usual price, buy now or wait) and a Buy button. Everything below is cards of figures and short phrases, never a sentence where a number or a few words will do. The design is a private page agents can't open, so the session passes its source file's path in the builder's and the Checker's prompts. Once built, <code>templates/page.html</code> owns the look, and the link stays only as the Look gate's reference.</p>
 <ol>
   <li><b>Answer.</b> What to buy and where, in two or three lines.</li>
-  <li><b>What you asked for.</b> Your needs, and anything it assumed.</li>
-  <li><b>The shortlist.</b> A comparison table, then each pick: why it fits you, what reviewers praise and criticise, who it is not for.</li>
+  <li><b>What you asked for.</b> Your needs, and anything it assumed, including the owner-rating bar it used.</li>
+  <li><b>The shortlist.</b> A comparison table, then each pick: why it fits you, what testers praise and criticise, its owner rating (stars and count) and owners' most repeated complaint, who it is not for.</li>
   <li><b>Where to buy.</b> Per pick: store, seller, price, stock, link, time checked; price history and whether to buy now or wait.</li>
   <li><b>Left out.</b> The rest of the longlist and popular models it rejected, one line each with why, price included.</li>
   <li><b>Sources.</b> Every review and page it used, linked.</li>
@@ -174,6 +174,14 @@
     <tr><td>Any device</td><td>After two finds, the one page shows both reports on your phone, and nobody signed out can open it</td><td>Open</td></tr>
     <tr><td>Recheck</td><td>A recheck of a report at least a week old updates its prices and history</td><td>Open</td></tr>
     <tr><td>Look</td><td>A real report matches <a href="https://claude.ai/artifact/2bdAi5kiAn1Rmxjs6ES7BX">the design</a> on your phone and computer, in light and dark</td><td>Open</td></tr>
+  </tbody>
+</table>
+
+<h3>Plan</h3>
+<table>
+  <thead><tr><th>Step</th><th>Delivers</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>1. Owner ratings</td><td><code>templates/page.html</code> updated for up to 4 picks (2x2 on wide screens), owner rating line, owners' complaint line, owner-bar chip and the no-tested-fit rule, with the build's defaults in its comments; this Plan table. The next PR deletes <code>BUILD_REPORT.txt</code> and removes this Plan</td><td>Done</td></tr>
   </tbody>
 </table>
 
