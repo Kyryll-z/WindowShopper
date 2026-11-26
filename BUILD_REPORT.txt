@@ -1,8 +1,0 @@
-Minor gaps from the Checker, with the defaults the builder uses:
-- How an older report opens: the URL hash drives show/hide (CSS :target, with a small script fallback), so contents links work even if scripts are limited; only search needs JS. No hash shows the newest report.
-- After a pick only that report shows; the newest comes back by picking its row; the picked row is marked current.
-- Empty search box shows every contents row; no match shows one "No reports match" row; the report on show stays.
-- Search is a case-insensitive substring match over each report's full text (hidden ones too) plus its contents row.
-- No test file is committed; the Checker tests search and open in its own temp folder (jsdom or headless Chrome).
-- A recheck keeps the report's place in the list; the page still opens on the newest report.
-- templates/page.html header comment becomes "inline CSS and one inline script, no external resources".
