@@ -85,7 +85,7 @@
   <li><b>Longlist.</b> It reads tested reviews and owner ratings from the sources below and keeps every model that fits your needs, is sold new in Canada and holds up with testers or with owners: enough that price can still change the answer, often 6 to 10. Owner evidence is the stars, the number of ratings, and repeated failures in recent low-star reviews; ratings pooled across sizes or versions and incentivized reviews count less. The bar for owner ratings is its call per item, and the report says what it used.</li>
   <li><b>Prices.</b> For each longlist model, current prices in CAD at every general store under "Sources" and the specialty stores that fit the item, each with its link, stock and the time checked; a store that doesn't carry the model gets one line saying so. Price history where it can find it, and whether now is a good time to buy. It reads store and tracker pages in your Chrome through Claude in Chrome, so stores see a normal browser. On each site it first declines non-essential cookies and closes pop-ups. A price counts only for the exact model, new, with the seller named (store or marketplace seller) and what's included; one model can be listed at very different prices on the same store. Many store pages fill in results and prices a few seconds after loading, so it waits until they show and tries again before calling a page unreadable; when a search result won't open, it goes to the product's address directly. If Chrome isn't reachable, a store refuses it or a page still won't load, it first tries <code>WebFetch</code> on the store page, then search results. A price it can't read on the store page is tagged "Not verified", linked to where it came from, and never used alone for the Answer; one note under "Where to buy" says what the tag means.</li>
   <li><b>Shortlist.</b> With reviews and prices side by side, it narrows to up to 4: best overall, best value, and up to two alternatives worth knowing. Fewer is fine when one model clearly wins. When no tested model fits your needs, budget and a Canadian store, the Answer says so first, and one alternative is the nearest tested model with its price gap.</li>
-  <li><b>Report.</b> Added at the top of <code>reports/page.html</code> (made from <code>templates/page.html</code> on the first find), with its date and item in the page's contents list. The session publishes the page with the <code>Artifact</code> tool and sends you the link. On the first publish it writes the page's claude.ai URL into <code>reports/page.html</code> as <code>&lt;meta name="artifact-url"&gt;</code>; every later find or recheck passes that URL to <code>Artifact</code>, so the same page is updated, never a new one. The page is titled "WindowShopper reports".</li>
+  <li><b>Report.</b> Added at the top of <code>reports/page.html</code> (made from <code>templates/page.html</code> on the first find), with its date and item in the page's contents list. The session publishes the page with the <code>Artifact</code> tool and sends you the link. On the first publish it writes the page's claude.ai URL into <code>reports/page.html</code> as <code>&lt;meta name="artifact-url"&gt;</code>; every later find or recheck passes that URL to <code>Artifact</code>, so the same page is updated, never a new one. The page is titled "WindowShopper reports". When the shell of <code>templates/page.html</code> (head, styles, script, header, search box, contents list) differs from the one in <code>reports/page.html</code>, the next find or recheck rebuilds <code>reports/page.html</code> from the template and keeps every report, contents row and the artifact-url meta.</li>
   <li><b>Recheck.</b> <code>recheck &lt;report&gt;</code> refreshes the prices and price history of a past report, in place on the page, with the new check time, and publishes the page again.</li>
 </ol>
 
@@ -101,7 +101,7 @@
 </table>
 
 <h2>The report</h2>
-<p>One page holds every report, newest first, under a contents list of date, item and top pick. It is readable on a phone. Each report has the parts below, in order; <code>templates/page.html</code> holds the shape.</p>
+<p>One page holds every report under a contents list of date, item and top pick, newest first, with a search box above it. Only the newest report shows; an older one opens when you pick it in the contents list. Search looks through the whole text of every report (item, models, stores, owners' complaints) and narrows the contents list to the reports that contain it. It is readable on a phone. Each report has the parts below, in order; <code>templates/page.html</code> holds the shape.</p>
 <p>It looks like <a href="https://claude.ai/artifact/2bdAi5kiAn1Rmxjs6ES7BX">the design</a>: each report opens on the top pick's name, three figures (price and store, saving against the usual price, buy now or wait) and a Buy button. Everything below is cards of figures and short phrases, never a sentence where a number or a few words will do. The design is a private page agents can't open, so the session passes its source file's path in the builder's and the Checker's prompts. Once built, <code>templates/page.html</code> owns the look, and the link stays only as the Look gate's reference.</p>
 <ol>
   <li><b>Answer.</b> What to buy and where, in two or three lines.</li>
@@ -138,13 +138,13 @@
   <thead><tr><th>Path</th><th>Holds</th></tr></thead>
   <tbody>
     <tr><td><code>BRIEF.html</code>, <code>CLAUDE.md</code>, <code>README.md</code></td><td>This spec; the other two say "Read <code>BRIEF.html</code>", and <code>README.md</code> also gives the Chrome setup below</td></tr>
-    <tr><td><code>templates/page.html</code></td><td>The page's shape and look: contents list, then one report section following "The report", styled like its design</td></tr>
+    <tr><td><code>templates/page.html</code></td><td>The page's shape and look: search box and contents list, then one report section following "The report", styled like its design, with the small script that runs search</td></tr>
     <tr><td><code>reports/</code></td><td><code>page.html</code>, the local copy of the page and its URL, made on the first find. Listed in <code>.gitignore</code>: not committed</td></tr>
     <tr><td><code>.gitignore</code></td><td><code>reports/</code>, <code>.claude/settings.local.json</code></td></tr>
     <tr><td><code>.claude/</code></td><td><code>settings.json</code> allowing exactly the Session tools above; <code>agents/checker.md</code></td></tr>
   </tbody>
 </table>
-<p>No code. Needs Chrome with the Claude in Chrome extension, open on the computer the session runs on, and <code>/chrome</code> run once in Claude Code to connect it. <code>README.md</code> says both.</p>
+<p>No code beyond the small inline script in <code>templates/page.html</code> that runs search and opens reports from the contents list. Needs Chrome with the Claude in Chrome extension, open on the computer the session runs on, and <code>/chrome</code> run once in Claude Code to connect it. <code>README.md</code> says both.</p>
 
 <h2>Rules for the repo</h2>
 <table>
@@ -171,9 +171,17 @@
     <tr><td>Built</td><td>The files under "Repo layout" exist and follow this brief</td><td>Open</td></tr>
     <tr><td>First real find</td><td>One report for something you are actually buying, which you'd act on</td><td>Open</td></tr>
     <tr><td>Honest prices</td><td>Every price shown as verified matches the store page on the day it was checked</td><td>Open</td></tr>
-    <tr><td>Any device</td><td>After two finds, the one page shows both reports on your phone, and nobody signed out can open it</td><td>Open</td></tr>
+    <tr><td>Any device</td><td>After two finds, the one page shows the newest report on your phone, opens the other from the contents list and finds it by search, and nobody signed out can open it</td><td>Open</td></tr>
     <tr><td>Recheck</td><td>A recheck of a report at least a week old updates its prices and history</td><td>Open</td></tr>
     <tr><td>Look</td><td>A real report matches <a href="https://claude.ai/artifact/2bdAi5kiAn1Rmxjs6ES7BX">the design</a> on your phone and computer, in light and dark</td><td>Open</td></tr>
+  </tbody>
+</table>
+
+<h3>Plan</h3>
+<table>
+  <thead><tr><th>Step</th><th>Delivers</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>1. Newest report and search</td><td><code>templates/page.html</code>: search box above the contents list, only the newest report shown, an older one opened from its contents row (URL hash: CSS <code>:target</code>, inline script as fallback, picked row marked current), search over every report's full text with a "No reports match" row, the shell-rebuild rule and the header comment "inline CSS and one inline script"; this Plan table. The next PR deletes <code>BUILD_REPORT.txt</code> and removes this Plan</td><td>Done</td></tr>
   </tbody>
 </table>
 
