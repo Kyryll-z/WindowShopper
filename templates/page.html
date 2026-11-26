@@ -288,9 +288,12 @@
       No tested model fits: one Alternative card is the nearest tested model, badge
       <span class="badge plain">Nearest tested</span>, with its gap as a figure in its .why
       (e.g. "+$80 over budget", the need it misses, or "Not sold in Canada"). It may come from
-      outside the longlist. If it has no Canadian store, its price carries
+      outside the longlist. If it has no Canadian store, its price is shown in its own currency
+      with the currency marked (e.g. US$129, never a plain $ amount), carries
       <span class="tag">Not verified</span>, links to where it was found, and the card shows
-      "Not sold in Canada"; never a Buy button for it.
+      "Not sold in Canada"; never a Buy button for it. Its gap is "Not sold in Canada", plus a
+      budget gap only when converted to CAD with the rate and date given (e.g. "≈+$80 CAD over
+      budget · 1.40 on Nov 26, 2026").
     -->
     <section class="part" id="YYYY-MM-DD-item-picks">
       <div class="eyebrow">Shortlist</div>
@@ -336,7 +339,8 @@
       (.verdict.wait for wait). No history found: drop the pill and the range bar, and show
       <p class="nohist">No price history found</p> instead.
       .legend: keep it whenever the report shows a Not verified tag.
-      Nearest tested model with no Canadian store: its card shows the price found with
+      Nearest tested model with no Canadian store: its card shows the price found in its own
+      currency with the currency marked (e.g. US$129, never a plain $ amount), with
       <span class="tag">Not verified</span>, linked to its source, and "Not sold in Canada" where
       the seller goes. This is the only price shown without a verified store row; never a Buy
       button for it.
