@@ -73,6 +73,7 @@
   .hero { text-align: center; }
   .hero h2 { margin: 12px 0 0; font: 600 clamp(38px, 7vw, 64px)/1.02 var(--display); letter-spacing: -0.03em; color: var(--fg); }
   .hero .why { margin: 10px 0 0; font-size: 18px; color: var(--body); }
+  .hero .warn { margin: 10px 0 0; font-size: 14px; font-weight: 600; color: var(--warn); }
   .stats { display: flex; justify-content: center; flex-wrap: wrap; margin: 36px auto 0; }
   .stats div { padding: 0 32px; }
   .stats div + div { border-left: 1px solid var(--line); }
@@ -98,6 +99,8 @@
 
   /* Shortlist */
   .picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 14px; }
+  .picks:has(> .pick:nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 560px) { .picks:has(> .pick:nth-child(4)) { grid-template-columns: minmax(0, 1fr); } }
   .pick { min-width: 0; padding: 24px; border-radius: 16px; background: var(--tile); box-shadow: 0 0 0 1px var(--line) inset; }
   .pick.top { box-shadow: 0 0 0 2px var(--accent) inset; }
   .badge { display: inline-block; padding: 4px 10px; border-radius: 980px; background: var(--accent-soft); color: var(--accent); font: 600 11px/1.3 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; }
@@ -119,6 +122,8 @@
   .pc .not { color: var(--muted); }
   .src { margin-left: auto; padding-left: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
   .specs .src { margin-left: 0; padding-left: 4px; }
+  .owners { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+  .owners a { color: var(--fg); font-weight: 600; }
 
   /* Where to buy */
   .buy { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; }
@@ -195,8 +200,9 @@
       matches, ask. Update the eyebrow's date to the new check date and add "Rechecked <date>" to
       it. Update prices, stock, time checked, price history and buy-now-or-wait in Where to buy,
       the hero and pick-card figures that mirror them, and the prices in Left out.
-      Change the top pick and Buy button only if the best place to buy changed. Republish to the
-      artifact URL.
+      Change the top pick and Buy button only if the best place to buy changed. Owner ratings and
+      owners' complaints stay as of the report date; a recheck refreshes prices and history only.
+      Republish to the artifact URL.
       A change you ask for: re-run from Longlist with the changed needs, replace this <article> in
       place (same position, same id), add the change as a dated chip under You asked for,
       republish to the same URL.
@@ -222,9 +228,16 @@
       and "No verified store" in its span; the primary button becomes a neutral
       <a class="btn ghost" href="<source link>">See listing</a>. Never name a store as the place
       to buy on an unverified price alone.
+      No tested model fits (needs, budget and a Canadian store): the top pick stays the best model
+      on owner evidence. Add <p class="warn">No tested model fits</p> above the h2, and the .why
+      says it rests on owner ratings. The nearest tested model goes in the shortlist as an
+      Alternative badged "Nearest tested" with its gap. If nothing fits at all, the nearest tested
+      model becomes the top pick and the warn line says so (e.g. "Nothing fits: nearest tested
+      model"). Delete the warn line when a tested model fits.
     -->
     <div class="hero">
       <div class="eyebrow">Item · Mon D, YYYY</div>
+      <p class="warn">No tested model fits</p>
       <h2>Model</h2>
       <p class="why">Short phrase on why it fits.</p>
       <div class="stats num">
@@ -239,24 +252,45 @@
       <p class="alt">Spend less: <b>Model</b>, <a href="https://store.example/product" target="_blank" rel="noopener noreferrer">$0</a> at Store · checked 0:00 AM</p>
     </div>
 
-    <!-- What you asked for: one chip per need as stated; .as chips for anything assumed; a dated chip for each change asked for later. -->
+    <!--
+      What you asked for: one chip per need as stated; .as chips for anything assumed; a dated chip
+      for each change asked for later. Always one .as chip for the owner-rating bar used (e.g.
+      "Owner bar: 4.0★+, 100+ ratings"), adding a short note when low-star reviews couldn't be read
+      (e.g. "· low-star reviews behind sign-in").
+    -->
     <section class="part">
       <div class="eyebrow">You asked for</div>
       <ul class="chips">
         <li>Need</li>
         <li class="as">Assumed: ...</li>
+        <li class="as">Owner bar: 4.0★+, 100+ ratings</li>
       </ul>
     </section>
 
     <!--
-      Shortlist: up to 3: best overall (.pick.top, badge "Best overall"), best value (badge
-      "Best value"), one alternative when worth knowing (badge "Alternative", .badge.plain).
-      Fewer when one clearly wins. The cards are the comparison table: every card has the same
-      4 specs in the same order in its .grid4. No separate table.
+      Shortlist: up to 4: best overall (.pick.top, badge "Best overall"), best value (badge
+      "Best value"), up to two alternatives worth knowing (badge "Alternative", .badge.plain).
+      Fewer when one clearly wins. With 4 picks the grid is 2x2 on wide screens, one column on
+      phones. The cards are the comparison table: every card has the same 4 specs in the same
+      order in its .grid4. No separate table.
       Per card: price = a plain link to the same store as its Where to buy row (never shown
       without one); .why = one short phrase on why it fits you; one "Specs: <source>" link per
-      spec grid; then what reviewers praise (.plus) and criticise (.minus), each with its .src
-      link; the "Not for" line (.not) is the only one without a source.
+      spec grid; then the owner rating line (.owners); then what testers praise (.plus) and
+      criticise (.minus), each with its .src link; then owners' most repeated complaint, one
+      .minus line starting "Owners:" with its .src link to the review page (or Reddit), or
+      "Owners: no repeated complaint"; the "Not for" line (.not) is the only one without a source.
+      Owner rating (.owners): the store with the most ratings, linked to that store's reviews:
+      "4.4★ · 2,310 ratings · Amazon.ca"; add " · pooled" when ratings mix sizes or versions;
+      "No owner ratings" if none. The .grid4 stays 4 specs.
+      Low-star reviews: reach sorted or filtered review pages by URL, never by clicking filters.
+      Where reviews sit behind sign-in, use what the product page shows and say so in the
+      owner-bar chip.
+      No tested model fits: one Alternative card is the nearest tested model, badge
+      <span class="badge plain">Nearest tested</span>, with its gap as a figure in its .why
+      (e.g. "+$80 over budget", the need it misses, or "Not sold in Canada"). It may come from
+      outside the longlist. If it has no Canadian store, its price carries
+      <span class="tag">Not verified</span>, links to where it was found, and the card shows
+      "Not sold in Canada"; never a Buy button for it.
     -->
     <section class="part" id="YYYY-MM-DD-item-picks">
       <div class="eyebrow">Shortlist</div>
@@ -271,9 +305,11 @@
             <div><b>Value</b><span>Spec 3</span></div><div><b>Value</b><span>Spec 4</span></div>
           </div>
           <p class="specs">Specs: <a class="src" href="https://review.example" target="_blank" rel="noopener noreferrer">SOURCE</a></p>
+          <p class="owners num"><a href="https://store.example/product-reviews" target="_blank" rel="noopener noreferrer">0.0★ · 0 ratings · Store</a></p>
           <ul class="pc">
             <li class="plus">Praise <a class="src" href="https://review.example" target="_blank" rel="noopener noreferrer">SOURCE</a></li>
             <li class="minus">Criticism <a class="src" href="https://review.example" target="_blank" rel="noopener noreferrer">SOURCE</a></li>
+            <li class="minus">Owners: most repeated complaint <a class="src" href="https://store.example/product-reviews" target="_blank" rel="noopener noreferrer">STORE</a></li>
             <li class="not">Not for ...</li>
           </ul>
         </div>
@@ -300,6 +336,10 @@
       (.verdict.wait for wait). No history found: drop the pill and the range bar, and show
       <p class="nohist">No price history found</p> instead.
       .legend: keep it whenever the report shows a Not verified tag.
+      Nearest tested model with no Canadian store: its card shows the price found with
+      <span class="tag">Not verified</span>, linked to its source, and "Not sold in Canada" where
+      the seller goes. This is the only price shown without a verified store row; never a Buy
+      button for it.
     -->
     <section class="part">
       <div class="eyebrow">Where to buy</div>
