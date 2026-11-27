@@ -282,13 +282,15 @@
 
     <!--
       Owner reviews, for every model considered (shortlist and Left out, kept or rejected): read
-      its recent low-star reviews before deciding; stars and count alone never keep or reject a
-      model. Reach sorted or filtered review pages by URL, never by clicking filters. Where
-      reviews sit behind sign-in, use what the product page shows and say so in the owner-bar
-      chip. If no review text can be read on the store page: the product page's critical
-      reviews, then another Canadian store's reviews, then Reddit; if none, its Owners line is
-      "Owners: couldn't read reviews" linked to the page tried, and the model is decided on
-      tester evidence only.
+      its recent low-star reviews before writing its row, even for a model already out for
+      missing a need or not being sold in Canada; failing a need never skips the reading. Stars
+      and count alone never keep or reject a model. Reach sorted or filtered review pages by URL,
+      never by clicking filters. Where reviews sit behind sign-in, use what the product page
+      shows and say so in the owner-bar chip. If no review text can be read on the store page:
+      the product page's critical reviews, then another Canadian store's reviews, then Reddit.
+      The Owners line is never "not read": "Owners: couldn't read reviews", linked to the page
+      tried, only after this whole order fails, and the model is then decided on tester
+      evidence only.
     -->
 
     <!--
@@ -417,8 +419,10 @@
       line (.muted.ow), same wording and link as the pick cards: "Owners: <most repeated
       complaint>", "Owners: no repeated complaint" or "Owners: couldn't read reviews", with its
       .src link to the review page read (or the page tried). Popular models rejected, including
-      ones not sold in Canada, get one too; a non-Canadian review page is fine if linked. On
-      phones it runs full width under the row.
+      ones not sold in Canada, get one too; a non-Canadian review page is fine if linked. A
+      rejected model not sold in Canada still shows a price, as for the nearest tested model: its
+      own currency marked (e.g. US$0, never a plain $ amount), <span class="tag">Not verified</span>,
+      linked to its source. On phones the owners line runs full width under the row.
     -->
     <section class="part">
       <div class="eyebrow">Left out</div>
