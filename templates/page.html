@@ -176,6 +176,7 @@
   .out b { color: var(--fg); font-weight: 600; }
   .out .num { text-align: right; }
   .out .num a { color: var(--fg); }
+  .out .ow { grid-column: 3; }
   @media (max-width: 560px) { .out li { grid-template-columns: minmax(0, 1fr) auto; } .out .muted { grid-column: 1 / -1; } }
 
   /* Sources */
@@ -280,6 +281,17 @@
     </div>
 
     <!--
+      Owner reviews, for every model considered (shortlist and Left out, kept or rejected): read
+      its recent low-star reviews before deciding; stars and count alone never keep or reject a
+      model. Reach sorted or filtered review pages by URL, never by clicking filters. Where
+      reviews sit behind sign-in, use what the product page shows and say so in the owner-bar
+      chip. If no review text can be read on the store page: the product page's critical
+      reviews, then another Canadian store's reviews, then Reddit; if none, its Owners line is
+      "Owners: couldn't read reviews" linked to the page tried, and the model is decided on
+      tester evidence only.
+    -->
+
+    <!--
       What you asked for: one chip per need as stated; .as chips for anything assumed; a dated chip
       for each change asked for later. Always one .as chip for the owner-rating bar used (e.g.
       "Owner bar: 0.0★+, 0+ ratings"), adding a short note when low-star reviews couldn't be read
@@ -304,14 +316,13 @@
       without one); .why = one short phrase on why it fits you; one "Specs: <source>" link per
       spec grid; then the owner rating line (.owners); then what testers praise (.plus) and
       criticise (.minus), each with its .src link; then owners' most repeated complaint, one
-      .minus line starting "Owners:" with its .src link to the review page (or Reddit), or
-      "Owners: no repeated complaint"; the "Not for" line (.not) is the only one without a source.
+      .minus line starting "Owners:" with its .src link to the review page read (or Reddit):
+      "Owners: <most repeated complaint>", "Owners: no repeated complaint" or "Owners: couldn't
+      read reviews" (see Owner reviews above); the "Not for" line (.not) is the only one without a
+      source.
       Owner rating (.owners): the store with the most ratings, linked to that store's reviews:
       "0.0★ · 0 ratings · Store"; add " · pooled" when ratings mix sizes or versions;
       "No owner ratings" if none. The .grid4 stays 4 specs.
-      Low-star reviews: reach sorted or filtered review pages by URL, never by clicking filters.
-      Where reviews sit behind sign-in, use what the product page shows and say so in the
-      owner-bar chip.
       No tested model fits: one Alternative card is the nearest tested model, badge
       <span class="badge plain">Nearest tested</span>, with its gap as a figure in its .why
       (e.g. "+$0 over budget", the need it misses, or "Not sold in Canada"). It may come from
@@ -402,12 +413,17 @@
     <!--
       Left out: the rest of the longlist and popular models rejected, one row each: model, price
       as a plain store link (with <span class="tag">Not verified</span> after the model name when
-      it applies; the report's check date covers the time), and why in a few words.
+      it applies; the report's check date covers the time), why in a few words, then the owners
+      line (.muted.ow), same wording and link as the pick cards: "Owners: <most repeated
+      complaint>", "Owners: no repeated complaint" or "Owners: couldn't read reviews", with its
+      .src link to the review page read (or the page tried). Popular models rejected, including
+      ones not sold in Canada, get one too; a non-Canadian review page is fine if linked. On
+      phones it runs full width under the row.
     -->
     <section class="part">
       <div class="eyebrow">Left out</div>
       <ul class="out">
-        <li><span><b>Model</b></span><span class="num"><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">$0.00</a></span><span class="muted">Why</span></li>
+        <li><span><b>Model</b></span><span class="num"><a href="https://store.example/product" target="_blank" rel="noopener noreferrer">$0.00</a></span><span class="muted">Why</span><span class="muted ow">Owners: most repeated complaint <a class="src" href="https://store.example/product-reviews" target="_blank" rel="noopener noreferrer">STORE</a></span></li>
       </ul>
     </section>
 
