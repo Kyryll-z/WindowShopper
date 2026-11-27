@@ -1,7 +1,0 @@
-Minor findings from the Checker, with the defaults the builder used:
-- Left out rows get an Owners line ("Owners: <most repeated complaint>" / "Owners: no repeated complaint"), same wording and a.src link pattern as the pick cards; styled as existing muted .out text (class "muted ow"), no new visual element; full width under 560px via the existing .out .muted rule. Comment updated.
-- "Owners: no repeated complaint" is linked to the review page read too, on cards and Left out rows.
-- The low-star review instructions (sorted/filtered pages by URL; product page when reviews need sign-in) moved from the Shortlist comment to a new "Owner reviews" comment covering every model considered, with "stars and count alone never keep or reject a model".
-- No review text readable: product page's critical reviews, then another Canadian store, then Reddit; if none, "Owners: couldn't read reviews" linked to the page tried, and the model is decided on tester evidence only.
-- Popular models rejected, including ones not sold in Canada, get an Owners line too; a non-Canadian review source is fine if linked.
-- Recheck comment unchanged: owners' complaints already stay as of the report date.
